@@ -1,0 +1,1499 @@
+{
+    "__meta__": {
+        "version": [
+            2,
+            5
+        ],
+        "compiler": "https://github.com/p4lang/p4c-bm"
+    },
+    "header_types": [
+        {
+            "name": "standard_metadata_t",
+            "id": 0,
+            "fields": [
+                [
+                    "ingress_port",
+                    9
+                ],
+                [
+                    "packet_length",
+                    32
+                ],
+                [
+                    "egress_spec",
+                    9
+                ],
+                [
+                    "egress_port",
+                    9
+                ],
+                [
+                    "egress_instance",
+                    32
+                ],
+                [
+                    "instance_type",
+                    32
+                ],
+                [
+                    "clone_spec",
+                    32
+                ],
+                [
+                    "_padding",
+                    5
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ethernet_t",
+            "id": 1,
+            "fields": [
+                [
+                    "dstAddr",
+                    48
+                ],
+                [
+                    "srcAddr",
+                    48
+                ],
+                [
+                    "etherType",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ipv4_t",
+            "id": 2,
+            "fields": [
+                [
+                    "version",
+                    4
+                ],
+                [
+                    "ihl",
+                    4
+                ],
+                [
+                    "diffserv",
+                    8
+                ],
+                [
+                    "totalLen",
+                    16
+                ],
+                [
+                    "identification",
+                    16
+                ],
+                [
+                    "flags",
+                    3
+                ],
+                [
+                    "fragOffset",
+                    13
+                ],
+                [
+                    "ttl",
+                    8
+                ],
+                [
+                    "protocol",
+                    8
+                ],
+                [
+                    "hdrChecksum",
+                    16
+                ],
+                [
+                    "srcAddr",
+                    32
+                ],
+                [
+                    "dstAddr",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "tcp_t",
+            "id": 3,
+            "fields": [
+                [
+                    "srcPort",
+                    16
+                ],
+                [
+                    "dstPort",
+                    16
+                ],
+                [
+                    "seqNo",
+                    32
+                ],
+                [
+                    "ackNo",
+                    32
+                ],
+                [
+                    "dataOffset",
+                    4
+                ],
+                [
+                    "res",
+                    4
+                ],
+                [
+                    "flags",
+                    8
+                ],
+                [
+                    "window",
+                    16
+                ],
+                [
+                    "checksum",
+                    16
+                ],
+                [
+                    "urgentPtr",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "arp_rarp_t",
+            "id": 4,
+            "fields": [
+                [
+                    "hwtype",
+                    16
+                ],
+                [
+                    "protoType",
+                    16
+                ],
+                [
+                    "hwAddrLen",
+                    8
+                ],
+                [
+                    "protoAddrLen",
+                    8
+                ],
+                [
+                    "opcode",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "arp_rarp_ipv4_t",
+            "id": 5,
+            "fields": [
+                [
+                    "srcHwAddr",
+                    48
+                ],
+                [
+                    "srcProtoAddr",
+                    32
+                ],
+                [
+                    "dstHwAddr",
+                    48
+                ],
+                [
+                    "dstProtoAddr",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "intrinsic_metadata_t",
+            "id": 6,
+            "fields": [
+                [
+                    "ingress_global_timestamp",
+                    48
+                ],
+                [
+                    "mcast_grp",
+                    4
+                ],
+                [
+                    "egress_rid",
+                    4
+                ],
+                [
+                    "mcast_hash",
+                    16
+                ],
+                [
+                    "lf_field_list",
+                    32
+                ],
+                [
+                    "resubmit_flag",
+                    16
+                ],
+                [
+                    "priority",
+                    8
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "meta_t",
+            "id": 7,
+            "fields": [
+                [
+                    "tcpLength",
+                    16
+                ],
+                [
+                    "cpu_msgType",
+                    8
+                ],
+                [
+                    "cpu_deviceID",
+                    8
+                ],
+                [
+                    "cpu_flag",
+                    8
+                ],
+                [
+                    "cpu_portID",
+                    8
+                ],
+                [
+                    "eth_srcAddr",
+                    48
+                ],
+                [
+                    "eth_dstAddr",
+                    48
+                ],
+                [
+                    "ipv4_srcAddr",
+                    32
+                ],
+                [
+                    "ipv4_dstAddr",
+                    32
+                ],
+                [
+                    "tcp_srcPort",
+                    16
+                ],
+                [
+                    "tcp_dstPort",
+                    16
+                ],
+                [
+                    "tcp_seqNo",
+                    32
+                ],
+                [
+                    "tcp_ackNo",
+                    32
+                ],
+                [
+                    "seqNo",
+                    32
+                ],
+                [
+                    "ackNo",
+                    32
+                ],
+                [
+                    "idx",
+                    32
+                ],
+                [
+                    "currentPathID",
+                    32
+                ],
+                [
+                    "count",
+                    32
+                ],
+                [
+                    "count_temp",
+                    32
+                ],
+                [
+                    "pathCount",
+                    32
+                ],
+                [
+                    "rttFlag",
+                    32
+                ],
+                [
+                    "packet_length",
+                    32
+                ],
+                [
+                    "vid",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "cpu_header_t",
+            "id": 8,
+            "fields": [
+                [
+                    "identifier",
+                    32
+                ],
+                [
+                    "msgType",
+                    8
+                ],
+                [
+                    "deviceID",
+                    8
+                ],
+                [
+                    "flag",
+                    8
+                ],
+                [
+                    "portID",
+                    8
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "vlan_t",
+            "id": 9,
+            "fields": [
+                [
+                    "pcp",
+                    3
+                ],
+                [
+                    "cfi",
+                    1
+                ],
+                [
+                    "vid",
+                    12
+                ],
+                [
+                    "ethType",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        }
+    ],
+    "headers": [
+        {
+            "name": "standard_metadata",
+            "id": 0,
+            "header_type": "standard_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "cpu_header",
+            "id": 1,
+            "header_type": "cpu_header_t",
+            "metadata": false
+        },
+        {
+            "name": "ethernet",
+            "id": 2,
+            "header_type": "ethernet_t",
+            "metadata": false
+        },
+        {
+            "name": "ipv4",
+            "id": 3,
+            "header_type": "ipv4_t",
+            "metadata": false
+        },
+        {
+            "name": "tcp",
+            "id": 4,
+            "header_type": "tcp_t",
+            "metadata": false
+        },
+        {
+            "name": "arp_rarp",
+            "id": 5,
+            "header_type": "arp_rarp_t",
+            "metadata": false
+        },
+        {
+            "name": "arp_rarp_ipv4",
+            "id": 6,
+            "header_type": "arp_rarp_ipv4_t",
+            "metadata": false
+        },
+        {
+            "name": "vlan",
+            "id": 7,
+            "header_type": "vlan_t",
+            "metadata": false
+        },
+        {
+            "name": "intrinsic_metadata",
+            "id": 8,
+            "header_type": "intrinsic_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "meta",
+            "id": 9,
+            "header_type": "meta_t",
+            "metadata": true
+        }
+    ],
+    "header_stacks": [],
+    "parsers": [
+        {
+            "name": "parser",
+            "id": 0,
+            "init_state": "start",
+            "parse_states": [
+                {
+                    "name": "start",
+                    "id": 0,
+                    "parser_ops": [],
+                    "transition_key": [
+                        {
+                            "type": "lookahead",
+                            "value": [
+                                0,
+                                32
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x87654321",
+                            "mask": null,
+                            "next_state": "parse_cpu_header"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_cpu_header",
+                    "id": 1,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "cpu_header"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "cpu_msgType"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "cpu_header",
+                                        "msgType"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "cpu_deviceID"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "cpu_header",
+                                        "deviceID"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "cpu_flag"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "cpu_header",
+                                        "flag"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "cpu_portID"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "cpu_header",
+                                        "portID"
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ethernet",
+                    "id": 2,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ethernet"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "eth_srcAddr"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "ethernet",
+                                        "srcAddr"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "eth_dstAddr"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "ethernet",
+                                        "dstAddr"
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "etherType"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0800",
+                            "mask": null,
+                            "next_state": "parse_ipv4"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0806",
+                            "mask": null,
+                            "next_state": "parse_arp_rarp"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x8100",
+                            "mask": null,
+                            "next_state": "parse_vlan"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ipv4",
+                    "id": 3,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ipv4"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "tcpLength"
+                                    ]
+                                },
+                                {
+                                    "type": "expression",
+                                    "value": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "-",
+                                            "left": {
+                                                "type": "field",
+                                                "value": [
+                                                    "ipv4",
+                                                    "totalLen"
+                                                ]
+                                            },
+                                            "right": {
+                                                "type": "hexstr",
+                                                "value": "0x14"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "ipv4_srcAddr"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "ipv4",
+                                        "srcAddr"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "ipv4_dstAddr"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "ipv4",
+                                        "dstAddr"
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ipv4",
+                                "protocol"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x06",
+                            "mask": null,
+                            "next_state": "parse_tcp"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_tcp",
+                    "id": 4,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "tcp"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "tcp_srcPort"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "tcp",
+                                        "srcPort"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "tcp_dstPort"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "tcp",
+                                        "dstPort"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "tcp_seqNo"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "tcp",
+                                        "seqNo"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "meta",
+                                        "tcp_ackNo"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "tcp",
+                                        "ackNo"
+                                    ]
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_arp_rarp",
+                    "id": 5,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "arp_rarp"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_rarp",
+                                "protoType"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0800",
+                            "mask": null,
+                            "next_state": "parse_arp_rarp_ipv4"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_arp_rarp_ipv4",
+                    "id": 6,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "arp_rarp_ipv4"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_vlan",
+                    "id": 7,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "vlan"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ipv4"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "parse_vsets": [],
+    "deparsers": [
+        {
+            "name": "deparser",
+            "id": 0,
+            "order": [
+                "cpu_header",
+                "ethernet",
+                "vlan",
+                "ipv4",
+                "tcp",
+                "arp_rarp",
+                "arp_rarp_ipv4"
+            ]
+        }
+    ],
+    "meter_arrays": [],
+    "actions": [
+        {
+            "name": "setOutput",
+            "id": 0,
+            "runtime_data": [
+                {
+                    "name": "port",
+                    "bitwidth": 9
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "intrinsic_metadata",
+                                "priority"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "_drop",
+            "id": 1,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "drop",
+                    "parameters": []
+                }
+            ]
+        }
+    ],
+    "pipelines": [
+        {
+            "name": "ingress",
+            "id": 0,
+            "init_table": "_condition_0",
+            "tables": [
+                {
+                    "name": "ARPRouting",
+                    "id": 0,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "arp_rarp_ipv4",
+                                "srcProtoAddr"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "arp_rarp_ipv4",
+                                "dstProtoAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "setOutput",
+                        "_drop"
+                    ],
+                    "next_tables": {
+                        "setOutput": null,
+                        "_drop": null
+                    },
+                    "base_default_next": "_condition_1"
+                },
+                {
+                    "name": "IPv4Routing",
+                    "id": 1,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ipv4",
+                                "srcAddr"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ipv4",
+                                "dstAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "setOutput",
+                        "_drop"
+                    ],
+                    "next_tables": {
+                        "setOutput": null,
+                        "_drop": null
+                    },
+                    "base_default_next": null
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": [
+                {
+                    "name": "_condition_0",
+                    "id": 0,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "valid",
+                            "left": null,
+                            "right": {
+                                "type": "header",
+                                "value": "arp_rarp_ipv4"
+                            }
+                        }
+                    },
+                    "true_next": "ARPRouting",
+                    "false_next": "_condition_1"
+                },
+                {
+                    "name": "_condition_1",
+                    "id": 1,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "valid",
+                            "left": null,
+                            "right": {
+                                "type": "header",
+                                "value": "ipv4"
+                            }
+                        }
+                    },
+                    "true_next": "IPv4Routing",
+                    "false_next": null
+                }
+            ]
+        },
+        {
+            "name": "egress",
+            "id": 1,
+            "init_table": null,
+            "tables": [],
+            "action_profiles": [],
+            "conditionals": []
+        }
+    ],
+    "calculations": [
+        {
+            "name": "ipv4_checksum",
+            "id": 0,
+            "input": [
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "version"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "ihl"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "diffserv"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "totalLen"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "identification"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "flags"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "fragOffset"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "ttl"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "protocol"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "srcAddr"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "dstAddr"
+                    ]
+                }
+            ],
+            "algo": "csum16"
+        },
+        {
+            "name": "tcp_checksum",
+            "id": 1,
+            "input": [
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "srcAddr"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "dstAddr"
+                    ]
+                },
+                {
+                    "type": "hexstr",
+                    "value": "0x00",
+                    "bitwidth": 8
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "protocol"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "meta",
+                        "tcpLength"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "srcPort"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "dstPort"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "seqNo"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "ackNo"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "dataOffset"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "res"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "flags"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "window"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "urgentPtr"
+                    ]
+                },
+                {
+                    "type": "header",
+                    "value": "arp_rarp"
+                },
+                {
+                    "type": "header",
+                    "value": "arp_rarp_ipv4"
+                },
+                {
+                    "type": "payload"
+                }
+            ],
+            "algo": "csum16"
+        }
+    ],
+    "checksums": [
+        {
+            "name": "ipv4.hdrChecksum|ipv4_checksum",
+            "id": 0,
+            "target": [
+                "ipv4",
+                "hdrChecksum"
+            ],
+            "type": "generic",
+            "calculation": "ipv4_checksum",
+            "if_cond": null
+        },
+        {
+            "name": "tcp.checksum|tcp_checksum",
+            "id": 1,
+            "target": [
+                "tcp",
+                "checksum"
+            ],
+            "type": "generic",
+            "calculation": "tcp_checksum",
+            "if_cond": {
+                "type": "expression",
+                "value": {
+                    "op": "valid",
+                    "left": null,
+                    "right": {
+                        "type": "header",
+                        "value": "tcp"
+                    }
+                }
+            }
+        }
+    ],
+    "learn_lists": [],
+    "field_lists": [],
+    "counter_arrays": [],
+    "register_arrays": [],
+    "force_arith": [
+        [
+            "standard_metadata",
+            "ingress_port"
+        ],
+        [
+            "standard_metadata",
+            "packet_length"
+        ],
+        [
+            "standard_metadata",
+            "egress_spec"
+        ],
+        [
+            "standard_metadata",
+            "egress_port"
+        ],
+        [
+            "standard_metadata",
+            "egress_instance"
+        ],
+        [
+            "standard_metadata",
+            "instance_type"
+        ],
+        [
+            "standard_metadata",
+            "clone_spec"
+        ],
+        [
+            "standard_metadata",
+            "_padding"
+        ],
+        [
+            "intrinsic_metadata",
+            "ingress_global_timestamp"
+        ],
+        [
+            "intrinsic_metadata",
+            "mcast_grp"
+        ],
+        [
+            "intrinsic_metadata",
+            "egress_rid"
+        ],
+        [
+            "intrinsic_metadata",
+            "mcast_hash"
+        ],
+        [
+            "intrinsic_metadata",
+            "lf_field_list"
+        ],
+        [
+            "intrinsic_metadata",
+            "resubmit_flag"
+        ],
+        [
+            "intrinsic_metadata",
+            "priority"
+        ]
+    ]
+}

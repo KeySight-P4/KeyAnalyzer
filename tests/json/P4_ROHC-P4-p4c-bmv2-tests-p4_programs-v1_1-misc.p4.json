@@ -1,0 +1,1396 @@
+{
+    "__meta__": {
+        "version": [
+            2,
+            5
+        ],
+        "compiler": "https://github.com/p4lang/p4c-bm"
+    },
+    "header_types": [
+        {
+            "name": "standard_metadata_t",
+            "id": 0,
+            "fields": [
+                [
+                    "ingress_port",
+                    9
+                ],
+                [
+                    "packet_length",
+                    32
+                ],
+                [
+                    "egress_spec",
+                    9
+                ],
+                [
+                    "egress_port",
+                    9
+                ],
+                [
+                    "egress_instance",
+                    32
+                ],
+                [
+                    "instance_type",
+                    32
+                ],
+                [
+                    "clone_spec",
+                    32
+                ],
+                [
+                    "_padding",
+                    5
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ethernet_t",
+            "id": 1,
+            "fields": [
+                [
+                    "dst_addr",
+                    48
+                ],
+                [
+                    "src_addr",
+                    48
+                ],
+                [
+                    "ethertype",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ipv4_t",
+            "id": 2,
+            "fields": [
+                [
+                    "version",
+                    4
+                ],
+                [
+                    "ihl",
+                    4
+                ],
+                [
+                    "diffserv",
+                    8
+                ],
+                [
+                    "totalLen",
+                    16
+                ],
+                [
+                    "identification",
+                    16
+                ],
+                [
+                    "flags",
+                    3
+                ],
+                [
+                    "fragOffset",
+                    13
+                ],
+                [
+                    "ttl",
+                    8
+                ],
+                [
+                    "protocol",
+                    8
+                ],
+                [
+                    "hdrChecksum",
+                    16
+                ],
+                [
+                    "srcAddr",
+                    32
+                ],
+                [
+                    "dstAddr",
+                    32
+                ],
+                [
+                    "options",
+                    "*"
+                ]
+            ],
+            "length_exp": {
+                "type": "expression",
+                "value": {
+                    "op": "-",
+                    "left": {
+                        "type": "expression",
+                        "value": {
+                            "op": "*",
+                            "left": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "*",
+                                    "left": {
+                                        "type": "local",
+                                        "value": 1
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x4"
+                                    }
+                                }
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x8"
+                            }
+                        }
+                    },
+                    "right": {
+                        "type": "hexstr",
+                        "value": "0xa0"
+                    }
+                }
+            },
+            "max_length": 60
+        },
+        {
+            "name": "meta_t",
+            "id": 3,
+            "fields": [
+                [
+                    "bla",
+                    32
+                ],
+                [
+                    "blo",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        }
+    ],
+    "headers": [
+        {
+            "name": "standard_metadata",
+            "id": 0,
+            "header_type": "standard_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "ethernet",
+            "id": 1,
+            "header_type": "ethernet_t",
+            "metadata": false
+        },
+        {
+            "name": "meta",
+            "id": 2,
+            "header_type": "meta_t",
+            "metadata": true
+        },
+        {
+            "name": "ipv4s[0]",
+            "id": 3,
+            "header_type": "ipv4_t",
+            "metadata": false
+        },
+        {
+            "name": "ipv4s[1]",
+            "id": 4,
+            "header_type": "ipv4_t",
+            "metadata": false
+        },
+        {
+            "name": "ipv4s[2]",
+            "id": 5,
+            "header_type": "ipv4_t",
+            "metadata": false
+        }
+    ],
+    "header_stacks": [
+        {
+            "name": "ipv4s",
+            "id": 0,
+            "size": 3,
+            "header_type": "ipv4_t",
+            "header_ids": [
+                3,
+                4,
+                5
+            ]
+        }
+    ],
+    "parsers": [
+        {
+            "name": "parser",
+            "id": 0,
+            "init_state": "start",
+            "parse_states": [
+                {
+                    "name": "start",
+                    "id": 0,
+                    "parser_ops": [],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ethernet",
+                    "id": 1,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ethernet"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "ethertype"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0800",
+                            "mask": null,
+                            "next_state": "parse_ipv4"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ipv4",
+                    "id": 2,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "stack",
+                                    "value": "ipv4s"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ipv4s[1]"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "ipv4s[1]",
+                                        "ttl"
+                                    ]
+                                },
+                                {
+                                    "type": "expression",
+                                    "value": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "-",
+                                            "left": {
+                                                "type": "field",
+                                                "value": [
+                                                    "ipv4s[1]",
+                                                    "ttl"
+                                                ]
+                                            },
+                                            "right": {
+                                                "type": "hexstr",
+                                                "value": "0x1"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "stack_field",
+                            "value": [
+                                "ipv4s",
+                                "ttl"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "parse_vsets": [],
+    "deparsers": [
+        {
+            "name": "deparser",
+            "id": 0,
+            "order": [
+                "ethernet",
+                "ipv4s[0]",
+                "ipv4s[1]"
+            ]
+        }
+    ],
+    "meter_arrays": [],
+    "actions": [
+        {
+            "name": "my_a",
+            "id": 0,
+            "runtime_data": [
+                {
+                    "name": "idx",
+                    "bitwidth": 16
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ipv4s[0]",
+                                "ttl"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "_nop",
+            "id": 1,
+            "runtime_data": [],
+            "primitives": []
+        },
+        {
+            "name": "one_action",
+            "id": 2,
+            "runtime_data": [
+                {
+                    "name": "a",
+                    "bitwidth": 16
+                },
+                {
+                    "name": "de",
+                    "bitwidth": 32
+                },
+                {
+                    "name": "idx",
+                    "bitwidth": 32
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "remove_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "ethernet"
+                        }
+                    ]
+                },
+                {
+                    "op": "add_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "ethernet"
+                        }
+                    ]
+                },
+                {
+                    "op": "copy_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "ethernet"
+                        },
+                        {
+                            "type": "header",
+                            "value": "ethernet"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "meta",
+                                "bla"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "or",
+                                    "left": {
+                                        "type": "hexstr",
+                                        "value": "0x1"
+                                    },
+                                    "right": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "valid",
+                                            "left": null,
+                                            "right": {
+                                                "type": "header",
+                                                "value": "ethernet"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "meta",
+                                "bla"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "+",
+                                            "left": {
+                                                "type": "hexstr",
+                                                "value": "0x21"
+                                            },
+                                            "right": {
+                                                "type": "local",
+                                                "value": 0
+                                            }
+                                        }
+                                    },
+                                    "right": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "<<",
+                                            "left": {
+                                                "type": "hexstr",
+                                                "value": "0x9"
+                                            },
+                                            "right": {
+                                                "type": "hexstr",
+                                                "value": "0x2"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "local",
+                                    "value": 2
+                                }
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "?",
+                                    "cond": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "valid",
+                                            "left": null,
+                                            "right": {
+                                                "type": "header",
+                                                "value": "ethernet"
+                                            }
+                                        }
+                                    },
+                                    "left": {
+                                        "type": "hexstr",
+                                        "value": "0x4e0"
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x63"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "meta",
+                                "bla"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "hexstr",
+                                        "value": "0x21"
+                                    },
+                                    "right": {
+                                        "type": "local",
+                                        "value": 0
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "meta",
+                                "bla"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1f"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "meta",
+                                "bla"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "local",
+                                        "value": 1
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0xab"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "hexstr",
+                                    "value": "0xc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x21"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "hexstr",
+                                    "value": "0xc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x21"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "hexstr",
+                                    "value": "0xc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "hexstr",
+                                        "value": "0x21"
+                                    },
+                                    "right": {
+                                        "type": "register",
+                                        "value": [
+                                            "pp",
+                                            {
+                                                "type": "expression",
+                                                "value": {
+                                                    "op": "+",
+                                                    "left": {
+                                                        "type": "hexstr",
+                                                        "value": "0xc"
+                                                    },
+                                                    "right": {
+                                                        "type": "local",
+                                                        "value": 0
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "meta",
+                                "bla"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1f"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "meta",
+                                "bla"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "local",
+                                        "value": 1
+                                    },
+                                    "right": {
+                                        "type": "register",
+                                        "value": [
+                                            "pp",
+                                            {
+                                                "type": "hexstr",
+                                                "value": "0x7"
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "hexstr",
+                                    "value": "0xc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x21"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "hexstr",
+                                    "value": "0xc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x21"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "hexstr",
+                                    "value": "0xc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "hexstr",
+                                        "value": "0x21"
+                                    },
+                                    "right": {
+                                        "type": "register",
+                                        "value": [
+                                            "pp",
+                                            {
+                                                "type": "expression",
+                                                "value": {
+                                                    "op": "+",
+                                                    "left": {
+                                                        "type": "hexstr",
+                                                        "value": "0xc"
+                                                    },
+                                                    "right": {
+                                                        "type": "local",
+                                                        "value": 0
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "meta",
+                                "bla"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1f"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "meta",
+                                "bla"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "local",
+                                        "value": 1
+                                    },
+                                    "right": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "+",
+                                            "left": {
+                                                "type": "hexstr",
+                                                "value": "0xa"
+                                            },
+                                            "right": {
+                                                "type": "hexstr",
+                                                "value": "0xcd"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "hexstr",
+                                    "value": "0xc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x21"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "hexstr",
+                                    "value": "0xc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x21"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "hexstr",
+                                    "value": "0xc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "hexstr",
+                                        "value": "0x21"
+                                    },
+                                    "right": {
+                                        "type": "register",
+                                        "value": [
+                                            "pp",
+                                            {
+                                                "type": "expression",
+                                                "value": {
+                                                    "op": "+",
+                                                    "left": {
+                                                        "type": "hexstr",
+                                                        "value": "0xc"
+                                                    },
+                                                    "right": {
+                                                        "type": "local",
+                                                        "value": 0
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "meta",
+                                "blo"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1f"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "meta",
+                                "blo"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "local",
+                                        "value": 1
+                                    },
+                                    "right": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "-",
+                                            "left": {
+                                                "type": "expression",
+                                                "value": {
+                                                    "op": "+",
+                                                    "left": {
+                                                        "type": "register",
+                                                        "value": [
+                                                            "pp",
+                                                            {
+                                                                "type": "hexstr",
+                                                                "value": "0x12"
+                                                            }
+                                                        ]
+                                                    },
+                                                    "right": {
+                                                        "type": "register",
+                                                        "value": [
+                                                            "pp",
+                                                            {
+                                                                "type": "expression",
+                                                                "value": {
+                                                                    "op": "+",
+                                                                    "left": {
+                                                                        "type": "hexstr",
+                                                                        "value": "0x5"
+                                                                    },
+                                                                    "right": {
+                                                                        "type": "local",
+                                                                        "value": 1
+                                                                    }
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            "right": {
+                                                "type": "expression",
+                                                "value": {
+                                                    "op": "<<",
+                                                    "left": {
+                                                        "type": "expression",
+                                                        "value": {
+                                                            "op": "access_field",
+                                                            "left": {
+                                                                "type": "expression",
+                                                                "value": {
+                                                                    "op": "dereference_stack",
+                                                                    "left": {
+                                                                        "type": "header_stack",
+                                                                        "value": "ipv4s"
+                                                                    },
+                                                                    "right": {
+                                                                        "type": "expression",
+                                                                        "value": {
+                                                                            "op": "last_stack_index",
+                                                                            "left": null,
+                                                                            "right": {
+                                                                                "type": "header_stack",
+                                                                                "value": "ipv4s"
+                                                                            }
+                                                                        }
+                                                                    }
+                                                                }
+                                                            },
+                                                            "right": 7
+                                                        }
+                                                    },
+                                                    "right": {
+                                                        "type": "hexstr",
+                                                        "value": "0x3"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "hexstr",
+                                    "value": "0xc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x21"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "hexstr",
+                                    "value": "0xc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x21"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "register",
+                            "value": [
+                                "pp",
+                                {
+                                    "type": "hexstr",
+                                    "value": "0xc"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "hexstr",
+                                        "value": "0x21"
+                                    },
+                                    "right": {
+                                        "type": "register",
+                                        "value": [
+                                            "pp",
+                                            {
+                                                "type": "expression",
+                                                "value": {
+                                                    "op": "+",
+                                                    "left": {
+                                                        "type": "hexstr",
+                                                        "value": "0xc"
+                                                    },
+                                                    "right": {
+                                                        "type": "local",
+                                                        "value": 0
+                                                    }
+                                                }
+                                            }
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "pipelines": [
+        {
+            "name": "ingress",
+            "id": 0,
+            "init_table": "my_t",
+            "tables": [
+                {
+                    "name": "my_t",
+                    "id": 0,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "my_a"
+                    ],
+                    "next_tables": {
+                        "my_a": "my_t2"
+                    },
+                    "base_default_next": "my_t2"
+                },
+                {
+                    "name": "my_t2",
+                    "id": 1,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "valid",
+                            "target": "meta",
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "meta",
+                                "bla"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "_nop"
+                    ],
+                    "next_tables": {
+                        "_nop": "_condition_0"
+                    },
+                    "base_default_next": "_condition_0"
+                },
+                {
+                    "name": "my_t3",
+                    "id": 2,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "one_action"
+                    ],
+                    "next_tables": {
+                        "one_action": null
+                    },
+                    "base_default_next": null
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": [
+                {
+                    "name": "_condition_0",
+                    "id": 0,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "==",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "meta",
+                                    "bla"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0xa"
+                            }
+                        }
+                    },
+                    "true_next": "my_t3",
+                    "false_next": null
+                }
+            ]
+        },
+        {
+            "name": "egress",
+            "id": 1,
+            "init_table": null,
+            "tables": [],
+            "action_profiles": [],
+            "conditionals": []
+        }
+    ],
+    "calculations": [],
+    "checksums": [],
+    "learn_lists": [],
+    "field_lists": [],
+    "counter_arrays": [],
+    "register_arrays": [
+        {
+            "name": "pp",
+            "id": 0,
+            "bitwidth": 16,
+            "size": 64
+        }
+    ],
+    "force_arith": [
+        [
+            "standard_metadata",
+            "ingress_port"
+        ],
+        [
+            "standard_metadata",
+            "packet_length"
+        ],
+        [
+            "standard_metadata",
+            "egress_spec"
+        ],
+        [
+            "standard_metadata",
+            "egress_port"
+        ],
+        [
+            "standard_metadata",
+            "egress_instance"
+        ],
+        [
+            "standard_metadata",
+            "instance_type"
+        ],
+        [
+            "standard_metadata",
+            "clone_spec"
+        ],
+        [
+            "standard_metadata",
+            "_padding"
+        ]
+    ]
+}

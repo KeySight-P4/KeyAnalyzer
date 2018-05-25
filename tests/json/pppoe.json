@@ -1,0 +1,940 @@
+{
+    "__meta__": {
+        "version": [
+            2,
+            5
+        ],
+        "compiler": "https://github.com/p4lang/p4c-bm"
+    },
+    "header_types": [
+        {
+            "name": "standard_metadata_t",
+            "id": 0,
+            "fields": [
+                [
+                    "ingress_port",
+                    9
+                ],
+                [
+                    "packet_length",
+                    32
+                ],
+                [
+                    "egress_spec",
+                    9
+                ],
+                [
+                    "egress_port",
+                    9
+                ],
+                [
+                    "egress_instance",
+                    32
+                ],
+                [
+                    "instance_type",
+                    32
+                ],
+                [
+                    "clone_spec",
+                    32
+                ],
+                [
+                    "_padding",
+                    5
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "eth_hdr",
+            "id": 1,
+            "fields": [
+                [
+                    "dst",
+                    48
+                ],
+                [
+                    "src",
+                    48
+                ],
+                [
+                    "etype",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "pppoe_hdr",
+            "id": 2,
+            "fields": [
+                [
+                    "version",
+                    4
+                ],
+                [
+                    "pppoe_type",
+                    4
+                ],
+                [
+                    "code",
+                    8
+                ],
+                [
+                    "session_id",
+                    16
+                ],
+                [
+                    "pppoe_length",
+                    16
+                ],
+                [
+                    "ppp_proto",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ipv4_hdr",
+            "id": 3,
+            "fields": [
+                [
+                    "version",
+                    4
+                ],
+                [
+                    "ihl",
+                    4
+                ],
+                [
+                    "diffserv",
+                    8
+                ],
+                [
+                    "totalLen",
+                    16
+                ],
+                [
+                    "identification",
+                    16
+                ],
+                [
+                    "flags",
+                    3
+                ],
+                [
+                    "fragOffset",
+                    13
+                ],
+                [
+                    "ttl",
+                    8
+                ],
+                [
+                    "protocol",
+                    8
+                ],
+                [
+                    "hdrChecksum",
+                    16
+                ],
+                [
+                    "srcAddr",
+                    32
+                ],
+                [
+                    "dstAddr",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        }
+    ],
+    "headers": [
+        {
+            "name": "standard_metadata",
+            "id": 0,
+            "header_type": "standard_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "eth_head",
+            "id": 1,
+            "header_type": "eth_hdr",
+            "metadata": false
+        },
+        {
+            "name": "pppoe_head",
+            "id": 2,
+            "header_type": "pppoe_hdr",
+            "metadata": false
+        },
+        {
+            "name": "ipv4_head",
+            "id": 3,
+            "header_type": "ipv4_hdr",
+            "metadata": false
+        }
+    ],
+    "header_stacks": [],
+    "parsers": [
+        {
+            "name": "parser",
+            "id": 0,
+            "init_state": "start",
+            "parse_states": [
+                {
+                    "name": "start",
+                    "id": 0,
+                    "parser_ops": [],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "ethernet",
+                    "id": 1,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "eth_head"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "eth_head",
+                                "etype"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x8863",
+                            "mask": null,
+                            "next_state": "pppoe"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0800",
+                            "mask": null,
+                            "next_state": "ipv4"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x8864",
+                            "mask": null,
+                            "next_state": "ppp"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "pppoe",
+                    "id": 2,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "pppoe_head"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "ipv4",
+                    "id": 3,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ipv4_head"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "ppp",
+                    "id": 4,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "pppoe_head"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "pppoe_head",
+                                "ppp_proto"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0021",
+                            "mask": null,
+                            "next_state": "ipv4"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "parse_vsets": [],
+    "deparsers": [
+        {
+            "name": "deparser",
+            "id": 0,
+            "order": [
+                "eth_head",
+                "pppoe_head",
+                "ipv4_head"
+            ]
+        }
+    ],
+    "meter_arrays": [],
+    "actions": [
+        {
+            "name": "drop_act",
+            "id": 0,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "drop",
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "name": "removeppp_fwd",
+            "id": 1,
+            "runtime_data": [
+                {
+                    "name": "port",
+                    "bitwidth": 9
+                },
+                {
+                    "name": "ethsrc",
+                    "bitwidth": 48
+                },
+                {
+                    "name": "ethdst",
+                    "bitwidth": 48
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "eth_head",
+                                "etype"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x800"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "eth_head",
+                                "src"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 1
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "eth_head",
+                                "dst"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "op": "remove_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "pppoe_head"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "addppp_fwd",
+            "id": 2,
+            "runtime_data": [
+                {
+                    "name": "port",
+                    "bitwidth": 9
+                },
+                {
+                    "name": "sessionid",
+                    "bitwidth": 16
+                },
+                {
+                    "name": "ethsrc",
+                    "bitwidth": 48
+                },
+                {
+                    "name": "ethdst",
+                    "bitwidth": 48
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "add_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "pppoe_head"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "pppoe_head",
+                                "version"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "pppoe_head",
+                                "pppoe_type"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "pppoe_head",
+                                "code"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "pppoe_head",
+                                "session_id"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 1
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "pppoe_head",
+                                "pppoe_length"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "ipv4_head",
+                                            "totalLen"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x2"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "pppoe_head",
+                                "ppp_proto"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x21"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "eth_head",
+                                "etype"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x8864"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "eth_head",
+                                "src"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 2
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "eth_head",
+                                "dst"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 3
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "fwd_act",
+            "id": 3,
+            "runtime_data": [
+                {
+                    "name": "port",
+                    "bitwidth": 9
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "pipelines": [
+        {
+            "name": "ingress",
+            "id": 0,
+            "init_table": "_condition_0",
+            "tables": [
+                {
+                    "name": "ip_table",
+                    "id": 0,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 20000,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ipv4_head",
+                                "dstAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "addppp_fwd",
+                        "drop_act"
+                    ],
+                    "next_tables": {
+                        "addppp_fwd": null,
+                        "drop_act": null
+                    },
+                    "base_default_next": null
+                },
+                {
+                    "name": "ppp_table",
+                    "id": 1,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 10,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "standard_metadata",
+                                "ingress_port"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "fwd_act",
+                        "drop_act"
+                    ],
+                    "next_tables": {
+                        "fwd_act": null,
+                        "drop_act": null
+                    },
+                    "base_default_next": null
+                },
+                {
+                    "name": "core_table",
+                    "id": 2,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 20000,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ipv4_head",
+                                "srcAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "removeppp_fwd",
+                        "drop_act"
+                    ],
+                    "next_tables": {
+                        "removeppp_fwd": null,
+                        "drop_act": null
+                    },
+                    "base_default_next": null
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": [
+                {
+                    "name": "_condition_0",
+                    "id": 0,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "==",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "eth_head",
+                                    "etype"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x800"
+                            }
+                        }
+                    },
+                    "true_next": "ip_table",
+                    "false_next": "_condition_1"
+                },
+                {
+                    "name": "_condition_1",
+                    "id": 1,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "or",
+                            "left": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "==",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "eth_head",
+                                            "etype"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x8864"
+                                    }
+                                }
+                            },
+                            "right": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "==",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "eth_head",
+                                            "etype"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x8863"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "true_next": "_condition_2",
+                    "false_next": null
+                },
+                {
+                    "name": "_condition_2",
+                    "id": 2,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "==",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "pppoe_head",
+                                    "ppp_proto"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x21"
+                            }
+                        }
+                    },
+                    "true_next": "core_table",
+                    "false_next": "ppp_table"
+                }
+            ]
+        },
+        {
+            "name": "egress",
+            "id": 1,
+            "init_table": null,
+            "tables": [],
+            "action_profiles": [],
+            "conditionals": []
+        }
+    ],
+    "calculations": [],
+    "checksums": [],
+    "learn_lists": [],
+    "field_lists": [],
+    "counter_arrays": [],
+    "register_arrays": [],
+    "force_arith": [
+        [
+            "standard_metadata",
+            "ingress_port"
+        ],
+        [
+            "standard_metadata",
+            "packet_length"
+        ],
+        [
+            "standard_metadata",
+            "egress_spec"
+        ],
+        [
+            "standard_metadata",
+            "egress_port"
+        ],
+        [
+            "standard_metadata",
+            "egress_instance"
+        ],
+        [
+            "standard_metadata",
+            "instance_type"
+        ],
+        [
+            "standard_metadata",
+            "clone_spec"
+        ],
+        [
+            "standard_metadata",
+            "_padding"
+        ]
+    ]
+}

@@ -1,0 +1,1763 @@
+{
+    "__meta__": {
+        "version": [
+            2,
+            5
+        ],
+        "compiler": "https://github.com/p4lang/p4c-bm"
+    },
+    "header_types": [
+        {
+            "name": "standard_metadata_t",
+            "id": 0,
+            "fields": [
+                [
+                    "ingress_port",
+                    9
+                ],
+                [
+                    "packet_length",
+                    32
+                ],
+                [
+                    "egress_spec",
+                    9
+                ],
+                [
+                    "egress_port",
+                    9
+                ],
+                [
+                    "egress_instance",
+                    32
+                ],
+                [
+                    "instance_type",
+                    32
+                ],
+                [
+                    "clone_spec",
+                    32
+                ],
+                [
+                    "_padding",
+                    5
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "vpc_t",
+            "id": 1,
+            "fields": [
+                [
+                    "srcSw",
+                    48
+                ],
+                [
+                    "dstSw",
+                    48
+                ],
+                [
+                    "customer",
+                    32
+                ],
+                [
+                    "srcAddr",
+                    32
+                ],
+                [
+                    "dstAddr",
+                    32
+                ],
+                [
+                    "etherType",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ethernet_t",
+            "id": 2,
+            "fields": [
+                [
+                    "dstAddr",
+                    48
+                ],
+                [
+                    "srcAddr",
+                    48
+                ],
+                [
+                    "etherType",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ipv4_t",
+            "id": 3,
+            "fields": [
+                [
+                    "version",
+                    4
+                ],
+                [
+                    "ihl",
+                    4
+                ],
+                [
+                    "diffserv",
+                    8
+                ],
+                [
+                    "totalLen",
+                    16
+                ],
+                [
+                    "identification",
+                    16
+                ],
+                [
+                    "flags",
+                    3
+                ],
+                [
+                    "fragOffset",
+                    13
+                ],
+                [
+                    "ttl",
+                    8
+                ],
+                [
+                    "protocol",
+                    8
+                ],
+                [
+                    "hdrChecksum",
+                    16
+                ],
+                [
+                    "srcAddr",
+                    32
+                ],
+                [
+                    "dstAddr",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "arp_rarp_t",
+            "id": 4,
+            "fields": [
+                [
+                    "hwType",
+                    16
+                ],
+                [
+                    "protoType",
+                    16
+                ],
+                [
+                    "hwAddrLen",
+                    8
+                ],
+                [
+                    "protoAddrLen",
+                    8
+                ],
+                [
+                    "opcode",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "arp_rarp_ipv4_t",
+            "id": 5,
+            "fields": [
+                [
+                    "srcHwAddr",
+                    48
+                ],
+                [
+                    "srcProtoAddr",
+                    32
+                ],
+                [
+                    "dstHwAddr",
+                    48
+                ],
+                [
+                    "dstProtoAddr",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ingress_metadata_t",
+            "id": 6,
+            "fields": [
+                [
+                    "srcAddr",
+                    32
+                ],
+                [
+                    "dstAddr",
+                    32
+                ],
+                [
+                    "customer",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        }
+    ],
+    "headers": [
+        {
+            "name": "standard_metadata",
+            "id": 0,
+            "header_type": "standard_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "ethernet",
+            "id": 1,
+            "header_type": "ethernet_t",
+            "metadata": false
+        },
+        {
+            "name": "vpc",
+            "id": 2,
+            "header_type": "vpc_t",
+            "metadata": false
+        },
+        {
+            "name": "arp_rarp",
+            "id": 3,
+            "header_type": "arp_rarp_t",
+            "metadata": false
+        },
+        {
+            "name": "arp_rarp_ipv4",
+            "id": 4,
+            "header_type": "arp_rarp_ipv4_t",
+            "metadata": false
+        },
+        {
+            "name": "ipv4",
+            "id": 5,
+            "header_type": "ipv4_t",
+            "metadata": false
+        },
+        {
+            "name": "ingress_metadata",
+            "id": 6,
+            "header_type": "ingress_metadata_t",
+            "metadata": true
+        }
+    ],
+    "header_stacks": [],
+    "parsers": [
+        {
+            "name": "parser",
+            "id": 0,
+            "init_state": "start",
+            "parse_states": [
+                {
+                    "name": "start",
+                    "id": 0,
+                    "parser_ops": [],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ethernet",
+                    "id": 1,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ethernet"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "etherType"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0777",
+                            "mask": null,
+                            "next_state": "parse_vpc"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0800",
+                            "mask": null,
+                            "next_state": "parse_ipv4"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0806",
+                            "mask": null,
+                            "next_state": "parse_arp_rarp"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_vpc",
+                    "id": 2,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "vpc"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "vpc",
+                                "etherType"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0800",
+                            "mask": null,
+                            "next_state": "parse_ipv4"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0806",
+                            "mask": null,
+                            "next_state": "parse_arp_rarp"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ipv4",
+                    "id": 3,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ipv4"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_arp_rarp",
+                    "id": 4,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "arp_rarp"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_rarp",
+                                "protoType"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0800",
+                            "mask": null,
+                            "next_state": "parse_arp_rarp_ipv4"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_arp_rarp_ipv4",
+                    "id": 5,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "arp_rarp_ipv4"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "parse_vsets": [],
+    "deparsers": [
+        {
+            "name": "deparser",
+            "id": 0,
+            "order": [
+                "ethernet",
+                "vpc",
+                "arp_rarp",
+                "arp_rarp_ipv4",
+                "ipv4"
+            ]
+        }
+    ],
+    "meter_arrays": [],
+    "actions": [
+        {
+            "name": "set_arp_reply",
+            "id": 0,
+            "runtime_data": [
+                {
+                    "name": "hwAddr",
+                    "bitwidth": 48
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "dstAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "srcAddr"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "srcAddr"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_rarp",
+                                "opcode"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x2"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_rarp_ipv4",
+                                "dstHwAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_rarp_ipv4",
+                                "srcHwAddr"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_rarp_ipv4",
+                                "dstProtoAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_rarp_ipv4",
+                                "srcProtoAddr"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_rarp_ipv4",
+                                "srcHwAddr"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_rarp_ipv4",
+                                "srcProtoAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "ingress_metadata",
+                                "dstAddr"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "ingress_port"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "set_vpc_customer",
+            "id": 1,
+            "runtime_data": [
+                {
+                    "name": "customer",
+                    "bitwidth": 32
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ingress_metadata",
+                                "customer"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "set_vpc_dst",
+            "id": 2,
+            "runtime_data": [
+                {
+                    "name": "dstSw",
+                    "bitwidth": 48
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "vpc",
+                                "dstSw"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "push_vpc",
+            "id": 3,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "add_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "vpc"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "vpc",
+                                "etherType"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "etherType"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "etherType"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x777"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "vpc",
+                                "customer"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "ingress_metadata",
+                                "customer"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "vpc",
+                                "srcAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "ingress_metadata",
+                                "srcAddr"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "vpc",
+                                "dstAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "ingress_metadata",
+                                "dstAddr"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "set_address_arp_packet",
+            "id": 4,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ingress_metadata",
+                                "customer"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ingress_metadata",
+                                "srcAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_rarp_ipv4",
+                                "srcProtoAddr"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ingress_metadata",
+                                "dstAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_rarp_ipv4",
+                                "dstProtoAddr"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "set_vpc_src_sw_id",
+            "id": 5,
+            "runtime_data": [
+                {
+                    "name": "srcSw",
+                    "bitwidth": 48
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "vpc",
+                                "srcSw"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pop_route_vpc",
+            "id": 6,
+            "runtime_data": [
+                {
+                    "name": "port",
+                    "bitwidth": 9
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "etherType"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "vpc",
+                                "etherType"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "remove_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "vpc"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "_noop",
+            "id": 7,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "no_op",
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "name": "_drop",
+            "id": 8,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "drop",
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "name": "set_address_ip_packet",
+            "id": 9,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ingress_metadata",
+                                "customer"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ingress_metadata",
+                                "srcAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "ipv4",
+                                "srcAddr"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ingress_metadata",
+                                "dstAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "ipv4",
+                                "dstAddr"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "set_l2_addr",
+            "id": 10,
+            "runtime_data": [
+                {
+                    "name": "srcAddr",
+                    "bitwidth": 48
+                },
+                {
+                    "name": "dstAddr",
+                    "bitwidth": 48
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "srcAddr"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "dstAddr"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 1
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "route_vpc",
+            "id": 11,
+            "runtime_data": [
+                {
+                    "name": "port",
+                    "bitwidth": 9
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "pipelines": [
+        {
+            "name": "ingress",
+            "id": 0,
+            "init_table": "_condition_0",
+            "tables": [
+                {
+                    "name": "address_ip_packet",
+                    "id": 0,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 1,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "set_address_ip_packet"
+                    ],
+                    "next_tables": {
+                        "set_address_ip_packet": "_condition_2"
+                    },
+                    "base_default_next": "_condition_2"
+                },
+                {
+                    "name": "address_arp_packet",
+                    "id": 1,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 1,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "set_address_arp_packet"
+                    ],
+                    "next_tables": {
+                        "set_address_arp_packet": "_condition_2"
+                    },
+                    "base_default_next": "_condition_2"
+                },
+                {
+                    "name": "encapsulate_vpc",
+                    "id": 2,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 1,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "push_vpc"
+                    ],
+                    "next_tables": {
+                        "push_vpc": "vpc_sw_id"
+                    },
+                    "base_default_next": "vpc_sw_id"
+                },
+                {
+                    "name": "l2_addr",
+                    "id": 3,
+                    "match_type": "lpm",
+                    "type": "simple",
+                    "max_size": 1024,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "vpc",
+                                "customer"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "vpc",
+                                "dstSw"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "lpm",
+                            "target": [
+                                "vpc",
+                                "srcAddr"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "vpc",
+                                "dstAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "_noop",
+                        "set_l2_addr"
+                    ],
+                    "next_tables": {
+                        "_noop": "routing_vpc",
+                        "set_l2_addr": "routing_vpc"
+                    },
+                    "base_default_next": "routing_vpc"
+                },
+                {
+                    "name": "vpc_dst",
+                    "id": 4,
+                    "match_type": "lpm",
+                    "type": "simple",
+                    "max_size": 1024,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "vpc",
+                                "customer"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "lpm",
+                            "target": [
+                                "vpc",
+                                "dstAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "_drop",
+                        "set_vpc_dst"
+                    ],
+                    "next_tables": {
+                        "_drop": "_condition_7",
+                        "set_vpc_dst": "_condition_7"
+                    },
+                    "base_default_next": "_condition_7"
+                },
+                {
+                    "name": "vpc_sw_id",
+                    "id": 5,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 1,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "set_vpc_src_sw_id"
+                    ],
+                    "next_tables": {
+                        "set_vpc_src_sw_id": "vpc_dst"
+                    },
+                    "base_default_next": "vpc_dst"
+                },
+                {
+                    "name": "routing_vpc",
+                    "id": 6,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 1024,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "vpc",
+                                "dstSw"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "route_vpc"
+                    ],
+                    "next_tables": {
+                        "route_vpc": "deliver_vpc"
+                    },
+                    "base_default_next": "deliver_vpc"
+                },
+                {
+                    "name": "deliver_vpc",
+                    "id": 7,
+                    "match_type": "lpm",
+                    "type": "simple",
+                    "max_size": 1024,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "vpc",
+                                "dstSw"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "vpc",
+                                "customer"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "lpm",
+                            "target": [
+                                "vpc",
+                                "dstAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "pop_route_vpc"
+                    ],
+                    "next_tables": {
+                        "pop_route_vpc": null
+                    },
+                    "base_default_next": null
+                },
+                {
+                    "name": "arp_reply",
+                    "id": 8,
+                    "match_type": "lpm",
+                    "type": "simple",
+                    "max_size": 1024,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ingress_metadata",
+                                "customer"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "lpm",
+                            "target": [
+                                "ingress_metadata",
+                                "srcAddr"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ingress_metadata",
+                                "dstAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "_drop",
+                        "set_arp_reply"
+                    ],
+                    "next_tables": {
+                        "_drop": "_condition_7",
+                        "set_arp_reply": "_condition_7"
+                    },
+                    "base_default_next": "_condition_7"
+                },
+                {
+                    "name": "vpc_customer",
+                    "id": 9,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 1024,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ethernet",
+                                "srcAddr"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ingress_metadata",
+                                "srcAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "_drop",
+                        "set_vpc_customer"
+                    ],
+                    "next_tables": {
+                        "_drop": "_condition_3",
+                        "set_vpc_customer": "_condition_3"
+                    },
+                    "base_default_next": "_condition_3"
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": [
+                {
+                    "name": "_condition_0",
+                    "id": 0,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "and",
+                            "left": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "==",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "ethernet",
+                                            "etherType"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x806"
+                                    }
+                                }
+                            },
+                            "right": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "==",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "arp_rarp",
+                                            "opcode"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x1"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "true_next": "address_arp_packet",
+                    "false_next": "_condition_1"
+                },
+                {
+                    "name": "_condition_1",
+                    "id": 1,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "==",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "ethernet",
+                                    "etherType"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x800"
+                            }
+                        }
+                    },
+                    "true_next": "address_ip_packet",
+                    "false_next": "_condition_2"
+                },
+                {
+                    "name": "_condition_2",
+                    "id": 2,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "or",
+                            "left": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "and",
+                                    "left": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "==",
+                                            "left": {
+                                                "type": "field",
+                                                "value": [
+                                                    "ethernet",
+                                                    "etherType"
+                                                ]
+                                            },
+                                            "right": {
+                                                "type": "hexstr",
+                                                "value": "0x806"
+                                            }
+                                        }
+                                    },
+                                    "right": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "==",
+                                            "left": {
+                                                "type": "field",
+                                                "value": [
+                                                    "arp_rarp",
+                                                    "opcode"
+                                                ]
+                                            },
+                                            "right": {
+                                                "type": "hexstr",
+                                                "value": "0x1"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "right": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "==",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "ethernet",
+                                            "etherType"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x800"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "true_next": "vpc_customer",
+                    "false_next": "_condition_3"
+                },
+                {
+                    "name": "_condition_3",
+                    "id": 3,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "and",
+                            "left": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "==",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "ethernet",
+                                            "etherType"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x806"
+                                    }
+                                }
+                            },
+                            "right": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "==",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "arp_rarp",
+                                            "opcode"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x1"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "true_next": "_condition_4",
+                    "false_next": "_condition_5"
+                },
+                {
+                    "name": "_condition_4",
+                    "id": 4,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": ">",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "ingress_metadata",
+                                    "customer"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x0"
+                            }
+                        }
+                    },
+                    "true_next": "arp_reply",
+                    "false_next": "_condition_7"
+                },
+                {
+                    "name": "_condition_5",
+                    "id": 5,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "==",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "ethernet",
+                                    "etherType"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x800"
+                            }
+                        }
+                    },
+                    "true_next": "_condition_6",
+                    "false_next": "_condition_7"
+                },
+                {
+                    "name": "_condition_6",
+                    "id": 6,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": ">",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "ingress_metadata",
+                                    "customer"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x0"
+                            }
+                        }
+                    },
+                    "true_next": "encapsulate_vpc",
+                    "false_next": "_condition_7"
+                },
+                {
+                    "name": "_condition_7",
+                    "id": 7,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "valid",
+                            "left": null,
+                            "right": {
+                                "type": "header",
+                                "value": "vpc"
+                            }
+                        }
+                    },
+                    "true_next": "l2_addr",
+                    "false_next": null
+                }
+            ]
+        },
+        {
+            "name": "egress",
+            "id": 1,
+            "init_table": null,
+            "tables": [],
+            "action_profiles": [],
+            "conditionals": []
+        }
+    ],
+    "calculations": [],
+    "checksums": [],
+    "learn_lists": [],
+    "field_lists": [],
+    "counter_arrays": [],
+    "register_arrays": [],
+    "force_arith": [
+        [
+            "standard_metadata",
+            "ingress_port"
+        ],
+        [
+            "standard_metadata",
+            "packet_length"
+        ],
+        [
+            "standard_metadata",
+            "egress_spec"
+        ],
+        [
+            "standard_metadata",
+            "egress_port"
+        ],
+        [
+            "standard_metadata",
+            "egress_instance"
+        ],
+        [
+            "standard_metadata",
+            "instance_type"
+        ],
+        [
+            "standard_metadata",
+            "clone_spec"
+        ],
+        [
+            "standard_metadata",
+            "_padding"
+        ]
+    ]
+}

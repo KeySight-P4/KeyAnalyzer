@@ -1,0 +1,502 @@
+{
+    "__meta__": {
+        "version": [
+            2,
+            5
+        ],
+        "compiler": "https://github.com/p4lang/p4c-bm"
+    },
+    "header_types": [
+        {
+            "name": "standard_metadata_t",
+            "id": 0,
+            "fields": [
+                [
+                    "ingress_port",
+                    9
+                ],
+                [
+                    "packet_length",
+                    32
+                ],
+                [
+                    "egress_spec",
+                    9
+                ],
+                [
+                    "egress_port",
+                    9
+                ],
+                [
+                    "egress_instance",
+                    32
+                ],
+                [
+                    "instance_type",
+                    32
+                ],
+                [
+                    "clone_spec",
+                    32
+                ],
+                [
+                    "_padding",
+                    5
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ethernet_t",
+            "id": 1,
+            "fields": [
+                [
+                    "dstAddr",
+                    48
+                ],
+                [
+                    "srcAddr",
+                    48
+                ],
+                [
+                    "etherType",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "intrinsic_metadata_t",
+            "id": 2,
+            "fields": [
+                [
+                    "mcast_grp",
+                    4
+                ],
+                [
+                    "egress_rid",
+                    4
+                ],
+                [
+                    "mcast_hash",
+                    16
+                ],
+                [
+                    "lf_field_list",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "cpu_header_t",
+            "id": 3,
+            "fields": [
+                [
+                    "device",
+                    8
+                ],
+                [
+                    "reason",
+                    8
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        }
+    ],
+    "headers": [
+        {
+            "name": "standard_metadata",
+            "id": 0,
+            "header_type": "standard_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "cpu_header",
+            "id": 1,
+            "header_type": "cpu_header_t",
+            "metadata": false
+        },
+        {
+            "name": "ethernet",
+            "id": 2,
+            "header_type": "ethernet_t",
+            "metadata": false
+        },
+        {
+            "name": "intrinsic_metadata",
+            "id": 3,
+            "header_type": "intrinsic_metadata_t",
+            "metadata": true
+        }
+    ],
+    "header_stacks": [],
+    "parsers": [
+        {
+            "name": "parser",
+            "id": 0,
+            "init_state": "start",
+            "parse_states": [
+                {
+                    "name": "start",
+                    "id": 0,
+                    "parser_ops": [],
+                    "transition_key": [
+                        {
+                            "type": "lookahead",
+                            "value": [
+                                0,
+                                64
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0000000000000000",
+                            "mask": null,
+                            "next_state": "parse_cpu_header"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_cpu_header",
+                    "id": 1,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "cpu_header"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ethernet",
+                    "id": 2,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ethernet"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "parse_vsets": [],
+    "deparsers": [
+        {
+            "name": "deparser",
+            "id": 0,
+            "order": [
+                "cpu_header",
+                "ethernet"
+            ]
+        }
+    ],
+    "meter_arrays": [],
+    "actions": [
+        {
+            "name": "do_copy_to_cpu",
+            "id": 0,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "clone_ingress_pkt_to_egress",
+                    "parameters": [
+                        {
+                            "type": "hexstr",
+                            "value": "0xfa"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "do_cpu_encap",
+            "id": 1,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "add_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "cpu_header"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "cpu_header",
+                                "device"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "cpu_header",
+                                "reason"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0xab"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "_drop",
+            "id": 2,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "drop",
+                    "parameters": []
+                }
+            ]
+        }
+    ],
+    "pipelines": [
+        {
+            "name": "ingress",
+            "id": 0,
+            "init_table": "copy_to_cpu",
+            "tables": [
+                {
+                    "name": "copy_to_cpu",
+                    "id": 0,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 1,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "do_copy_to_cpu"
+                    ],
+                    "next_tables": {
+                        "do_copy_to_cpu": null
+                    },
+                    "base_default_next": null
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": []
+        },
+        {
+            "name": "egress",
+            "id": 1,
+            "init_table": "redirect",
+            "tables": [
+                {
+                    "name": "redirect",
+                    "id": 1,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "standard_metadata",
+                                "instance_type"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "_drop",
+                        "do_cpu_encap"
+                    ],
+                    "next_tables": {
+                        "_drop": null,
+                        "do_cpu_encap": null
+                    },
+                    "base_default_next": null
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": []
+        }
+    ],
+    "calculations": [],
+    "checksums": [],
+    "learn_lists": [],
+    "field_lists": [
+        {
+            "id": 1,
+            "name": "copy_to_cpu_fields",
+            "elements": [
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "ingress_port"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "packet_length"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "egress_spec"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "egress_port"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "egress_instance"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "instance_type"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "clone_spec"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "_padding"
+                    ]
+                }
+            ]
+        }
+    ],
+    "counter_arrays": [],
+    "register_arrays": [],
+    "force_arith": [
+        [
+            "standard_metadata",
+            "ingress_port"
+        ],
+        [
+            "standard_metadata",
+            "packet_length"
+        ],
+        [
+            "standard_metadata",
+            "egress_spec"
+        ],
+        [
+            "standard_metadata",
+            "egress_port"
+        ],
+        [
+            "standard_metadata",
+            "egress_instance"
+        ],
+        [
+            "standard_metadata",
+            "instance_type"
+        ],
+        [
+            "standard_metadata",
+            "clone_spec"
+        ],
+        [
+            "standard_metadata",
+            "_padding"
+        ],
+        [
+            "intrinsic_metadata",
+            "mcast_grp"
+        ],
+        [
+            "intrinsic_metadata",
+            "egress_rid"
+        ],
+        [
+            "intrinsic_metadata",
+            "mcast_hash"
+        ],
+        [
+            "intrinsic_metadata",
+            "lf_field_list"
+        ]
+    ]
+}

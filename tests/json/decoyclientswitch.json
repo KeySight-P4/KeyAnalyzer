@@ -1,0 +1,2227 @@
+{
+    "__meta__": {
+        "version": [
+            2,
+            5
+        ],
+        "compiler": "https://github.com/p4lang/p4c-bm"
+    },
+    "header_types": [
+        {
+            "name": "standard_metadata_t",
+            "id": 0,
+            "fields": [
+                [
+                    "ingress_port",
+                    9
+                ],
+                [
+                    "packet_length",
+                    32
+                ],
+                [
+                    "egress_spec",
+                    9
+                ],
+                [
+                    "egress_port",
+                    9
+                ],
+                [
+                    "egress_instance",
+                    32
+                ],
+                [
+                    "instance_type",
+                    32
+                ],
+                [
+                    "clone_spec",
+                    32
+                ],
+                [
+                    "_padding",
+                    5
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ethernet_t",
+            "id": 1,
+            "fields": [
+                [
+                    "dstAddr",
+                    48
+                ],
+                [
+                    "srcAddr",
+                    48
+                ],
+                [
+                    "etherType",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "arp_t",
+            "id": 2,
+            "fields": [
+                [
+                    "senderhdw",
+                    16
+                ],
+                [
+                    "protoSpace",
+                    16
+                ],
+                [
+                    "hdwAddrLen",
+                    8
+                ],
+                [
+                    "ProtoAddrLen",
+                    8
+                ],
+                [
+                    "opCode",
+                    16
+                ],
+                [
+                    "senderHdwAddr",
+                    48
+                ],
+                [
+                    "senderProtoAddr",
+                    32
+                ],
+                [
+                    "tgtHdwAddr",
+                    48
+                ],
+                [
+                    "tgtProtoAddr",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ipv4_t",
+            "id": 3,
+            "fields": [
+                [
+                    "version",
+                    4
+                ],
+                [
+                    "ihl",
+                    4
+                ],
+                [
+                    "diffserv",
+                    8
+                ],
+                [
+                    "totalLen",
+                    16
+                ],
+                [
+                    "identification",
+                    16
+                ],
+                [
+                    "flags",
+                    3
+                ],
+                [
+                    "fragOffset",
+                    13
+                ],
+                [
+                    "ttl",
+                    8
+                ],
+                [
+                    "protocol",
+                    8
+                ],
+                [
+                    "hdrChecksum",
+                    16
+                ],
+                [
+                    "srcAddr",
+                    32
+                ],
+                [
+                    "dstAddr",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "tcp_t",
+            "id": 4,
+            "fields": [
+                [
+                    "srcPort",
+                    16
+                ],
+                [
+                    "dstPort",
+                    16
+                ],
+                [
+                    "seqNo",
+                    32
+                ],
+                [
+                    "ackNo",
+                    32
+                ],
+                [
+                    "dataOffset",
+                    4
+                ],
+                [
+                    "res",
+                    4
+                ],
+                [
+                    "flags",
+                    8
+                ],
+                [
+                    "window",
+                    16
+                ],
+                [
+                    "checksum",
+                    16
+                ],
+                [
+                    "urgentPtr",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "cpu_header_t",
+            "id": 5,
+            "fields": [
+                [
+                    "preamble",
+                    64
+                ],
+                [
+                    "reason",
+                    8
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "client_cpu_header_t",
+            "id": 6,
+            "fields": [
+                [
+                    "preamble",
+                    64
+                ],
+                [
+                    "tag_value",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "intrinsic_metadata_t",
+            "id": 7,
+            "fields": [
+                [
+                    "ingress_global_timestamp",
+                    48
+                ],
+                [
+                    "lf_field_list",
+                    8
+                ],
+                [
+                    "mcast_grp",
+                    16
+                ],
+                [
+                    "egress_rid",
+                    16
+                ],
+                [
+                    "resubmit_flag",
+                    8
+                ],
+                [
+                    "recirculate_flag",
+                    8
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "routing_metadata_t",
+            "id": 8,
+            "fields": [
+                [
+                    "nhop_ipv4",
+                    32
+                ],
+                [
+                    "do_route",
+                    1
+                ],
+                [
+                    "_padding",
+                    7
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "arp_tmp_metadata_t",
+            "id": 9,
+            "fields": [
+                [
+                    "reqMac",
+                    48
+                ],
+                [
+                    "reqIp",
+                    32
+                ],
+                [
+                    "queryMac",
+                    48
+                ],
+                [
+                    "queryIp",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "decoy_metadata_t",
+            "id": 10,
+            "fields": [
+                [
+                    "tag",
+                    32
+                ],
+                [
+                    "proxyIp",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "cpu_metadata_t",
+            "id": 11,
+            "fields": [
+                [
+                    "from_cpu",
+                    1
+                ],
+                [
+                    "_padding",
+                    7
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "tcp_metadata_t",
+            "id": 12,
+            "fields": [
+                [
+                    "tcpLength",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        }
+    ],
+    "headers": [
+        {
+            "name": "standard_metadata",
+            "id": 0,
+            "header_type": "standard_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "intrinsic_metadata",
+            "id": 1,
+            "header_type": "intrinsic_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "routing_metadata",
+            "id": 2,
+            "header_type": "routing_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "arp_tmp_metadata",
+            "id": 3,
+            "header_type": "arp_tmp_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "decoy_metadata",
+            "id": 4,
+            "header_type": "decoy_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "cpu_metadata",
+            "id": 5,
+            "header_type": "cpu_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "tcp_metadata",
+            "id": 6,
+            "header_type": "tcp_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "ethernet",
+            "id": 7,
+            "header_type": "ethernet_t",
+            "metadata": false
+        },
+        {
+            "name": "arp",
+            "id": 8,
+            "header_type": "arp_t",
+            "metadata": false
+        },
+        {
+            "name": "cpu_header",
+            "id": 9,
+            "header_type": "cpu_header_t",
+            "metadata": false
+        },
+        {
+            "name": "client_cpu_header",
+            "id": 10,
+            "header_type": "client_cpu_header_t",
+            "metadata": false
+        },
+        {
+            "name": "ipv4",
+            "id": 11,
+            "header_type": "ipv4_t",
+            "metadata": false
+        },
+        {
+            "name": "tcp",
+            "id": 12,
+            "header_type": "tcp_t",
+            "metadata": false
+        }
+    ],
+    "header_stacks": [],
+    "parsers": [
+        {
+            "name": "parser",
+            "id": 0,
+            "init_state": "start",
+            "parse_states": [
+                {
+                    "name": "start",
+                    "id": 0,
+                    "parser_ops": [
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "cpu_metadata",
+                                        "from_cpu"
+                                    ]
+                                },
+                                {
+                                    "type": "hexstr",
+                                    "value": "0x0"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "routing_metadata",
+                                        "do_route"
+                                    ]
+                                },
+                                {
+                                    "type": "hexstr",
+                                    "value": "0x1"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "lookahead",
+                            "value": [
+                                0,
+                                64
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0000000000000000",
+                            "mask": null,
+                            "next_state": "parse_cpu_header"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_cpu_header",
+                    "id": 1,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "cpu_header"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "cpu_metadata",
+                                        "from_cpu"
+                                    ]
+                                },
+                                {
+                                    "type": "hexstr",
+                                    "value": "0x1"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "lookahead",
+                            "value": [
+                                0,
+                                64
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0000000000000000",
+                            "mask": null,
+                            "next_state": "parse_client_cpu_header"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_client_cpu_header",
+                    "id": 2,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "client_cpu_header"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ethernet",
+                    "id": 3,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ethernet"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "etherType"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0800",
+                            "mask": null,
+                            "next_state": "parse_ipv4"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0806",
+                            "mask": null,
+                            "next_state": "parse_arp"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ipv4",
+                    "id": 4,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ipv4"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ipv4",
+                                "protocol"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x06",
+                            "mask": null,
+                            "next_state": "parse_tcp"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_tcp",
+                    "id": 5,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "tcp"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "tcp_metadata",
+                                        "tcpLength"
+                                    ]
+                                },
+                                {
+                                    "type": "expression",
+                                    "value": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "-",
+                                            "left": {
+                                                "type": "field",
+                                                "value": [
+                                                    "ipv4",
+                                                    "totalLen"
+                                                ]
+                                            },
+                                            "right": {
+                                                "type": "hexstr",
+                                                "value": "0x14"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_arp",
+                    "id": 6,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "arp"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "parse_vsets": [],
+    "deparsers": [
+        {
+            "name": "deparser",
+            "id": 0,
+            "order": [
+                "cpu_header",
+                "client_cpu_header",
+                "ethernet",
+                "arp",
+                "ipv4",
+                "tcp"
+            ]
+        }
+    ],
+    "meter_arrays": [],
+    "actions": [
+        {
+            "name": "neg_inbound",
+            "id": 0,
+            "runtime_data": [
+                {
+                    "name": "seq_diff",
+                    "bitwidth": 32
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "tcp",
+                                "ackNo"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "tcp",
+                                            "ackNo"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "local",
+                                        "value": 0
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "do_set_tag",
+            "id": 1,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "modify_field_with_hash_based_offset",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "decoy_metadata",
+                                "tag"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0"
+                        },
+                        {
+                            "type": "calculation",
+                            "value": "tag_hash"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x100000000"
+                        }
+                    ]
+                },
+                {
+                    "op": "clone_ingress_pkt_to_egress",
+                    "parameters": [
+                        {
+                            "type": "hexstr",
+                            "value": "0xfb"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1"
+                        }
+                    ]
+                },
+                {
+                    "op": "drop",
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "name": "cpu_to_client",
+            "id": 2,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "remove_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "cpu_header"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "set_arp_resp",
+            "id": 3,
+            "runtime_data": [
+                {
+                    "name": "dmac",
+                    "bitwidth": 48
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_tmp_metadata",
+                                "reqMac"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp",
+                                "senderHdwAddr"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_tmp_metadata",
+                                "reqIp"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp",
+                                "senderProtoAddr"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_tmp_metadata",
+                                "queryMac"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_tmp_metadata",
+                                "queryIp"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp",
+                                "tgtProtoAddr"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp",
+                                "opCode"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x2"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp",
+                                "senderHdwAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_tmp_metadata",
+                                "queryMac"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp",
+                                "senderProtoAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_tmp_metadata",
+                                "queryIp"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp",
+                                "tgtHdwAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_tmp_metadata",
+                                "reqMac"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp",
+                                "tgtProtoAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_tmp_metadata",
+                                "reqIp"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "dstAddr"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "arp_tmp_metadata",
+                                "reqMac"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "ingress_port"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "do_cpu_encap",
+            "id": 4,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "add_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "client_cpu_header"
+                        }
+                    ]
+                },
+                {
+                    "op": "add_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "cpu_header"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "cpu_header",
+                                "preamble"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "cpu_header",
+                                "reason"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0xab"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "client_cpu_header",
+                                "preamble"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "client_cpu_header",
+                                "tag_value"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "decoy_metadata",
+                                "tag"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pos_outbound",
+            "id": 5,
+            "runtime_data": [
+                {
+                    "name": "seq_diff",
+                    "bitwidth": 32
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "tcp",
+                                "seqNo"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "tcp",
+                                            "seqNo"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "local",
+                                        "value": 0
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "do_send_to_client",
+            "id": 6,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "pos_inbound",
+            "id": 7,
+            "runtime_data": [
+                {
+                    "name": "seq_diff",
+                    "bitwidth": 32
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "tcp",
+                                "ackNo"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "-",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "tcp",
+                                            "ackNo"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "local",
+                                        "value": 0
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "cpu_to_world",
+            "id": 8,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "remove_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "cpu_header"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x2"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "_drop",
+            "id": 9,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "drop",
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "name": "neg_outbound",
+            "id": 10,
+            "runtime_data": [
+                {
+                    "name": "seq_diff",
+                    "bitwidth": 32
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "tcp",
+                                "seqNo"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "-",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "tcp",
+                                            "seqNo"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "local",
+                                        "value": 0
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "_no_op",
+            "id": 11,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "no_op",
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "name": "do_send_to_world",
+            "id": 12,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x2"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "pipelines": [
+        {
+            "name": "ingress",
+            "id": 0,
+            "init_table": "_condition_0",
+            "tables": [
+                {
+                    "name": "set_tag_table",
+                    "id": 0,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "do_set_tag"
+                    ],
+                    "next_tables": {
+                        "do_set_tag": "tag_offset"
+                    },
+                    "base_default_next": "tag_offset"
+                },
+                {
+                    "name": "tag_offset",
+                    "id": 1,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 256,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ipv4",
+                                "srcAddr"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "tcp",
+                                "srcPort"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ipv4",
+                                "dstAddr"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "tcp",
+                                "dstPort"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "pos_outbound",
+                        "pos_inbound",
+                        "neg_outbound",
+                        "neg_inbound",
+                        "_no_op"
+                    ],
+                    "next_tables": {
+                        "pos_outbound": null,
+                        "pos_inbound": null,
+                        "neg_outbound": null,
+                        "neg_inbound": null,
+                        "_no_op": null
+                    },
+                    "base_default_next": "_condition_4"
+                },
+                {
+                    "name": "handle_cpu_table",
+                    "id": 2,
+                    "match_type": "lpm",
+                    "type": "simple",
+                    "max_size": 1,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "lpm",
+                            "target": [
+                                "ipv4",
+                                "dstAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "cpu_to_client",
+                        "cpu_to_world"
+                    ],
+                    "next_tables": {
+                        "cpu_to_client": "tag_offset",
+                        "cpu_to_world": "tag_offset"
+                    },
+                    "base_default_next": "tag_offset"
+                },
+                {
+                    "name": "send_to_world",
+                    "id": 3,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "do_send_to_world"
+                    ],
+                    "next_tables": {
+                        "do_send_to_world": "_condition_1"
+                    },
+                    "base_default_next": "_condition_1"
+                },
+                {
+                    "name": "send_to_client",
+                    "id": 4,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "do_send_to_client"
+                    ],
+                    "next_tables": {
+                        "do_send_to_client": "_condition_1"
+                    },
+                    "base_default_next": "_condition_1"
+                },
+                {
+                    "name": "arp_resp_lookup",
+                    "id": 5,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "arp",
+                                "tgtProtoAddr"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "set_arp_resp",
+                        "_drop"
+                    ],
+                    "next_tables": {
+                        "set_arp_resp": null,
+                        "_drop": null
+                    },
+                    "base_default_next": null
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": [
+                {
+                    "name": "_condition_0",
+                    "id": 0,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "==",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "standard_metadata",
+                                    "ingress_port"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x1"
+                            }
+                        }
+                    },
+                    "true_next": "send_to_world",
+                    "false_next": "send_to_client"
+                },
+                {
+                    "name": "_condition_1",
+                    "id": 1,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "valid",
+                            "left": null,
+                            "right": {
+                                "type": "header",
+                                "value": "tcp"
+                            }
+                        }
+                    },
+                    "true_next": "_condition_2",
+                    "false_next": "_condition_4"
+                },
+                {
+                    "name": "_condition_2",
+                    "id": 2,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "==",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "tcp",
+                                    "flags"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x2"
+                            }
+                        }
+                    },
+                    "true_next": "_condition_3",
+                    "false_next": "tag_offset"
+                },
+                {
+                    "name": "_condition_3",
+                    "id": 3,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "==",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "cpu_metadata",
+                                    "from_cpu"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x1"
+                            }
+                        }
+                    },
+                    "true_next": "handle_cpu_table",
+                    "false_next": "set_tag_table"
+                },
+                {
+                    "name": "_condition_4",
+                    "id": 4,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "valid",
+                            "left": null,
+                            "right": {
+                                "type": "header",
+                                "value": "arp"
+                            }
+                        }
+                    },
+                    "true_next": "_condition_5",
+                    "false_next": null
+                },
+                {
+                    "name": "_condition_5",
+                    "id": 5,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "==",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "arp",
+                                    "opCode"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x1"
+                            }
+                        }
+                    },
+                    "true_next": "arp_resp_lookup",
+                    "false_next": null
+                }
+            ]
+        },
+        {
+            "name": "egress",
+            "id": 1,
+            "init_table": "_condition_6",
+            "tables": [
+                {
+                    "name": "send_to_cpu",
+                    "id": 6,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "do_cpu_encap"
+                    ],
+                    "next_tables": {
+                        "do_cpu_encap": null
+                    },
+                    "base_default_next": null
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": [
+                {
+                    "name": "_condition_6",
+                    "id": 6,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "!=",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "standard_metadata",
+                                    "instance_type"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x0"
+                            }
+                        }
+                    },
+                    "true_next": "send_to_cpu",
+                    "false_next": null
+                }
+            ]
+        }
+    ],
+    "calculations": [
+        {
+            "name": "ipv4_checksum",
+            "id": 0,
+            "input": [
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "version"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "ihl"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "diffserv"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "totalLen"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "identification"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "flags"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "fragOffset"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "ttl"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "protocol"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "srcAddr"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "dstAddr"
+                    ]
+                }
+            ],
+            "algo": "csum16"
+        },
+        {
+            "name": "tcp_checksum",
+            "id": 1,
+            "input": [
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "srcAddr"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "dstAddr"
+                    ]
+                },
+                {
+                    "type": "hexstr",
+                    "value": "0x00",
+                    "bitwidth": 8
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "protocol"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp_metadata",
+                        "tcpLength"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "srcPort"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "dstPort"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "seqNo"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "ackNo"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "dataOffset"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "res"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "flags"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "window"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "urgentPtr"
+                    ]
+                },
+                {
+                    "type": "payload"
+                }
+            ],
+            "algo": "csum16"
+        },
+        {
+            "name": "tag_hash",
+            "id": 2,
+            "input": [
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "srcAddr"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "dstAddr"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "protocol"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "srcPort"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "dstPort"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "tcp",
+                        "window"
+                    ]
+                }
+            ],
+            "algo": "crc32"
+        }
+    ],
+    "checksums": [
+        {
+            "name": "ipv4.hdrChecksum|ipv4_checksum",
+            "id": 0,
+            "target": [
+                "ipv4",
+                "hdrChecksum"
+            ],
+            "type": "generic",
+            "calculation": "ipv4_checksum",
+            "if_cond": {
+                "type": "expression",
+                "value": {
+                    "op": "valid",
+                    "left": null,
+                    "right": {
+                        "type": "header",
+                        "value": "ipv4"
+                    }
+                }
+            }
+        },
+        {
+            "name": "tcp.checksum|tcp_checksum",
+            "id": 1,
+            "target": [
+                "tcp",
+                "checksum"
+            ],
+            "type": "generic",
+            "calculation": "tcp_checksum",
+            "if_cond": {
+                "type": "expression",
+                "value": {
+                    "op": "valid",
+                    "left": null,
+                    "right": {
+                        "type": "header",
+                        "value": "tcp"
+                    }
+                }
+            }
+        }
+    ],
+    "learn_lists": [],
+    "field_lists": [
+        {
+            "id": 1,
+            "name": "copy_to_cpu_fields",
+            "elements": [
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "ingress_port"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "packet_length"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "egress_spec"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "egress_port"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "egress_instance"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "instance_type"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "clone_spec"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "standard_metadata",
+                        "_padding"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "decoy_metadata",
+                        "tag"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "decoy_metadata",
+                        "proxyIp"
+                    ]
+                }
+            ]
+        }
+    ],
+    "counter_arrays": [],
+    "register_arrays": [],
+    "force_arith": [
+        [
+            "standard_metadata",
+            "ingress_port"
+        ],
+        [
+            "standard_metadata",
+            "packet_length"
+        ],
+        [
+            "standard_metadata",
+            "egress_spec"
+        ],
+        [
+            "standard_metadata",
+            "egress_port"
+        ],
+        [
+            "standard_metadata",
+            "egress_instance"
+        ],
+        [
+            "standard_metadata",
+            "instance_type"
+        ],
+        [
+            "standard_metadata",
+            "clone_spec"
+        ],
+        [
+            "standard_metadata",
+            "_padding"
+        ],
+        [
+            "intrinsic_metadata",
+            "ingress_global_timestamp"
+        ],
+        [
+            "intrinsic_metadata",
+            "lf_field_list"
+        ],
+        [
+            "intrinsic_metadata",
+            "mcast_grp"
+        ],
+        [
+            "intrinsic_metadata",
+            "egress_rid"
+        ],
+        [
+            "intrinsic_metadata",
+            "resubmit_flag"
+        ],
+        [
+            "intrinsic_metadata",
+            "recirculate_flag"
+        ]
+    ]
+}

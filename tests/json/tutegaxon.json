@@ -1,0 +1,1793 @@
+{
+    "__meta__": {
+        "version": [
+            2,
+            5
+        ],
+        "compiler": "https://github.com/p4lang/p4c-bm"
+    },
+    "header_types": [
+        {
+            "name": "standard_metadata_t",
+            "id": 0,
+            "fields": [
+                [
+                    "ingress_port",
+                    9
+                ],
+                [
+                    "packet_length",
+                    32
+                ],
+                [
+                    "egress_spec",
+                    9
+                ],
+                [
+                    "egress_port",
+                    9
+                ],
+                [
+                    "egress_instance",
+                    32
+                ],
+                [
+                    "instance_type",
+                    32
+                ],
+                [
+                    "clone_spec",
+                    32
+                ],
+                [
+                    "_padding",
+                    5
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "axon_head_t",
+            "id": 1,
+            "fields": [
+                [
+                    "preamble",
+                    64
+                ],
+                [
+                    "axonType",
+                    8
+                ],
+                [
+                    "axonLength",
+                    16
+                ],
+                [
+                    "fwdHopCount",
+                    8
+                ],
+                [
+                    "revHopCount",
+                    8
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "axon_hop_t",
+            "id": 2,
+            "fields": [
+                [
+                    "port",
+                    8
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "my_metadata_t",
+            "id": 3,
+            "fields": [
+                [
+                    "fwdHopCount",
+                    8
+                ],
+                [
+                    "revHopCount",
+                    8
+                ],
+                [
+                    "headerLen",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        }
+    ],
+    "headers": [
+        {
+            "name": "standard_metadata",
+            "id": 0,
+            "header_type": "standard_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "axon_head",
+            "id": 1,
+            "header_type": "axon_head_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[0]",
+            "id": 2,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[1]",
+            "id": 3,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[2]",
+            "id": 4,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[3]",
+            "id": 5,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[4]",
+            "id": 6,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[5]",
+            "id": 7,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[6]",
+            "id": 8,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[7]",
+            "id": 9,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[8]",
+            "id": 10,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[9]",
+            "id": 11,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[10]",
+            "id": 12,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[11]",
+            "id": 13,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[12]",
+            "id": 14,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[13]",
+            "id": 15,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[14]",
+            "id": 16,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[15]",
+            "id": 17,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[16]",
+            "id": 18,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[17]",
+            "id": 19,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[18]",
+            "id": 20,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[19]",
+            "id": 21,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[20]",
+            "id": 22,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[21]",
+            "id": 23,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[22]",
+            "id": 24,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[23]",
+            "id": 25,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[24]",
+            "id": 26,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[25]",
+            "id": 27,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[26]",
+            "id": 28,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[27]",
+            "id": 29,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[28]",
+            "id": 30,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[29]",
+            "id": 31,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[30]",
+            "id": 32,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[31]",
+            "id": 33,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[32]",
+            "id": 34,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[33]",
+            "id": 35,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[34]",
+            "id": 36,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[35]",
+            "id": 37,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[36]",
+            "id": 38,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[37]",
+            "id": 39,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[38]",
+            "id": 40,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[39]",
+            "id": 41,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[40]",
+            "id": 42,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[41]",
+            "id": 43,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[42]",
+            "id": 44,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[43]",
+            "id": 45,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[44]",
+            "id": 46,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[45]",
+            "id": 47,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[46]",
+            "id": 48,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[47]",
+            "id": 49,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[48]",
+            "id": 50,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[49]",
+            "id": 51,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[50]",
+            "id": 52,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[51]",
+            "id": 53,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[52]",
+            "id": 54,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[53]",
+            "id": 55,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[54]",
+            "id": 56,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[55]",
+            "id": 57,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[56]",
+            "id": 58,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[57]",
+            "id": 59,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[58]",
+            "id": 60,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[59]",
+            "id": 61,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[60]",
+            "id": 62,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[61]",
+            "id": 63,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[62]",
+            "id": 64,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_fwdHop[63]",
+            "id": 65,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[0]",
+            "id": 66,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[1]",
+            "id": 67,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[2]",
+            "id": 68,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[3]",
+            "id": 69,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[4]",
+            "id": 70,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[5]",
+            "id": 71,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[6]",
+            "id": 72,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[7]",
+            "id": 73,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[8]",
+            "id": 74,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[9]",
+            "id": 75,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[10]",
+            "id": 76,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[11]",
+            "id": 77,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[12]",
+            "id": 78,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[13]",
+            "id": 79,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[14]",
+            "id": 80,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[15]",
+            "id": 81,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[16]",
+            "id": 82,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[17]",
+            "id": 83,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[18]",
+            "id": 84,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[19]",
+            "id": 85,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[20]",
+            "id": 86,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[21]",
+            "id": 87,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[22]",
+            "id": 88,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[23]",
+            "id": 89,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[24]",
+            "id": 90,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[25]",
+            "id": 91,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[26]",
+            "id": 92,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[27]",
+            "id": 93,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[28]",
+            "id": 94,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[29]",
+            "id": 95,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[30]",
+            "id": 96,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[31]",
+            "id": 97,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[32]",
+            "id": 98,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[33]",
+            "id": 99,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[34]",
+            "id": 100,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[35]",
+            "id": 101,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[36]",
+            "id": 102,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[37]",
+            "id": 103,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[38]",
+            "id": 104,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[39]",
+            "id": 105,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[40]",
+            "id": 106,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[41]",
+            "id": 107,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[42]",
+            "id": 108,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[43]",
+            "id": 109,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[44]",
+            "id": 110,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[45]",
+            "id": 111,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[46]",
+            "id": 112,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[47]",
+            "id": 113,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[48]",
+            "id": 114,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[49]",
+            "id": 115,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[50]",
+            "id": 116,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[51]",
+            "id": 117,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[52]",
+            "id": 118,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[53]",
+            "id": 119,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[54]",
+            "id": 120,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[55]",
+            "id": 121,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[56]",
+            "id": 122,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[57]",
+            "id": 123,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[58]",
+            "id": 124,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[59]",
+            "id": 125,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[60]",
+            "id": 126,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[61]",
+            "id": 127,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[62]",
+            "id": 128,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "axon_revHop[63]",
+            "id": 129,
+            "header_type": "axon_hop_t",
+            "metadata": false
+        },
+        {
+            "name": "my_metadata",
+            "id": 130,
+            "header_type": "my_metadata_t",
+            "metadata": true
+        }
+    ],
+    "header_stacks": [
+        {
+            "name": "axon_revHop",
+            "id": 0,
+            "size": 64,
+            "header_type": "axon_hop_t",
+            "header_ids": [
+                66,
+                67,
+                68,
+                69,
+                70,
+                71,
+                72,
+                73,
+                74,
+                75,
+                76,
+                77,
+                78,
+                79,
+                80,
+                81,
+                82,
+                83,
+                84,
+                85,
+                86,
+                87,
+                88,
+                89,
+                90,
+                91,
+                92,
+                93,
+                94,
+                95,
+                96,
+                97,
+                98,
+                99,
+                100,
+                101,
+                102,
+                103,
+                104,
+                105,
+                106,
+                107,
+                108,
+                109,
+                110,
+                111,
+                112,
+                113,
+                114,
+                115,
+                116,
+                117,
+                118,
+                119,
+                120,
+                121,
+                122,
+                123,
+                124,
+                125,
+                126,
+                127,
+                128,
+                129
+            ]
+        },
+        {
+            "name": "axon_fwdHop",
+            "id": 1,
+            "size": 64,
+            "header_type": "axon_hop_t",
+            "header_ids": [
+                2,
+                3,
+                4,
+                5,
+                6,
+                7,
+                8,
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18,
+                19,
+                20,
+                21,
+                22,
+                23,
+                24,
+                25,
+                26,
+                27,
+                28,
+                29,
+                30,
+                31,
+                32,
+                33,
+                34,
+                35,
+                36,
+                37,
+                38,
+                39,
+                40,
+                41,
+                42,
+                43,
+                44,
+                45,
+                46,
+                47,
+                48,
+                49,
+                50,
+                51,
+                52,
+                53,
+                54,
+                55,
+                56,
+                57,
+                58,
+                59,
+                60,
+                61,
+                62,
+                63,
+                64,
+                65
+            ]
+        }
+    ],
+    "parsers": [
+        {
+            "name": "parser",
+            "id": 0,
+            "init_state": "start",
+            "parse_states": [
+                {
+                    "name": "start",
+                    "id": 0,
+                    "parser_ops": [],
+                    "transition_key": [
+                        {
+                            "type": "lookahead",
+                            "value": [
+                                0,
+                                64
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0000000000000000",
+                            "mask": null,
+                            "next_state": "parse_head"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_head",
+                    "id": 1,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "axon_head"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "my_metadata",
+                                        "fwdHopCount"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "axon_head",
+                                        "fwdHopCount"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "my_metadata",
+                                        "revHopCount"
+                                    ]
+                                },
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "axon_head",
+                                        "revHopCount"
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "my_metadata",
+                                        "headerLen"
+                                    ]
+                                },
+                                {
+                                    "type": "expression",
+                                    "value": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "+",
+                                            "left": {
+                                                "type": "expression",
+                                                "value": {
+                                                    "op": "+",
+                                                    "left": {
+                                                        "type": "hexstr",
+                                                        "value": "0x2"
+                                                    },
+                                                    "right": {
+                                                        "type": "field",
+                                                        "value": [
+                                                            "axon_head",
+                                                            "fwdHopCount"
+                                                        ]
+                                                    }
+                                                }
+                                            },
+                                            "right": {
+                                                "type": "field",
+                                                "value": [
+                                                    "axon_head",
+                                                    "revHopCount"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "axon_head",
+                                "fwdHopCount"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x00",
+                            "mask": null,
+                            "next_state": null
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_next_fwdHop"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_next_fwdHop",
+                    "id": 2,
+                    "parser_ops": [],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "my_metadata",
+                                "fwdHopCount"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x00",
+                            "mask": null,
+                            "next_state": "parse_next_revHop"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_fwdHop"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_next_revHop",
+                    "id": 3,
+                    "parser_ops": [],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "my_metadata",
+                                "revHopCount"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x00",
+                            "mask": null,
+                            "next_state": null
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_revHop"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_revHop",
+                    "id": 4,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "stack",
+                                    "value": "axon_revHop"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "my_metadata",
+                                        "revHopCount"
+                                    ]
+                                },
+                                {
+                                    "type": "expression",
+                                    "value": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "-",
+                                            "left": {
+                                                "type": "field",
+                                                "value": [
+                                                    "my_metadata",
+                                                    "revHopCount"
+                                                ]
+                                            },
+                                            "right": {
+                                                "type": "hexstr",
+                                                "value": "0x1"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_next_revHop"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_fwdHop",
+                    "id": 5,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "stack",
+                                    "value": "axon_fwdHop"
+                                }
+                            ]
+                        },
+                        {
+                            "op": "set",
+                            "parameters": [
+                                {
+                                    "type": "field",
+                                    "value": [
+                                        "my_metadata",
+                                        "fwdHopCount"
+                                    ]
+                                },
+                                {
+                                    "type": "expression",
+                                    "value": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "-",
+                                            "left": {
+                                                "type": "field",
+                                                "value": [
+                                                    "my_metadata",
+                                                    "fwdHopCount"
+                                                ]
+                                            },
+                                            "right": {
+                                                "type": "hexstr",
+                                                "value": "0x1"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_next_fwdHop"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "parse_vsets": [],
+    "deparsers": [
+        {
+            "name": "deparser",
+            "id": 0,
+            "order": [
+                "axon_head",
+                "axon_fwdHop[0]",
+                "axon_fwdHop[1]",
+                "axon_fwdHop[2]",
+                "axon_fwdHop[3]",
+                "axon_fwdHop[4]",
+                "axon_fwdHop[5]",
+                "axon_fwdHop[6]",
+                "axon_fwdHop[7]",
+                "axon_fwdHop[8]",
+                "axon_fwdHop[9]",
+                "axon_fwdHop[10]",
+                "axon_fwdHop[11]",
+                "axon_fwdHop[12]",
+                "axon_fwdHop[13]",
+                "axon_fwdHop[14]",
+                "axon_fwdHop[15]",
+                "axon_fwdHop[16]",
+                "axon_fwdHop[17]",
+                "axon_fwdHop[18]",
+                "axon_fwdHop[19]",
+                "axon_fwdHop[20]",
+                "axon_fwdHop[21]",
+                "axon_fwdHop[22]",
+                "axon_fwdHop[23]",
+                "axon_fwdHop[24]",
+                "axon_fwdHop[25]",
+                "axon_fwdHop[26]",
+                "axon_fwdHop[27]",
+                "axon_fwdHop[28]",
+                "axon_fwdHop[29]",
+                "axon_fwdHop[30]",
+                "axon_fwdHop[31]",
+                "axon_fwdHop[32]",
+                "axon_fwdHop[33]",
+                "axon_fwdHop[34]",
+                "axon_fwdHop[35]",
+                "axon_fwdHop[36]",
+                "axon_fwdHop[37]",
+                "axon_fwdHop[38]",
+                "axon_fwdHop[39]",
+                "axon_fwdHop[40]",
+                "axon_fwdHop[41]",
+                "axon_fwdHop[42]",
+                "axon_fwdHop[43]",
+                "axon_fwdHop[44]",
+                "axon_fwdHop[45]",
+                "axon_fwdHop[46]",
+                "axon_fwdHop[47]",
+                "axon_fwdHop[48]",
+                "axon_fwdHop[49]",
+                "axon_fwdHop[50]",
+                "axon_fwdHop[51]",
+                "axon_fwdHop[52]",
+                "axon_fwdHop[53]",
+                "axon_fwdHop[54]",
+                "axon_fwdHop[55]",
+                "axon_fwdHop[56]",
+                "axon_fwdHop[57]",
+                "axon_fwdHop[58]",
+                "axon_fwdHop[59]",
+                "axon_fwdHop[60]",
+                "axon_fwdHop[61]",
+                "axon_fwdHop[62]",
+                "axon_fwdHop[63]",
+                "axon_revHop[0]",
+                "axon_revHop[1]",
+                "axon_revHop[2]",
+                "axon_revHop[3]",
+                "axon_revHop[4]",
+                "axon_revHop[5]",
+                "axon_revHop[6]",
+                "axon_revHop[7]",
+                "axon_revHop[8]",
+                "axon_revHop[9]",
+                "axon_revHop[10]",
+                "axon_revHop[11]",
+                "axon_revHop[12]",
+                "axon_revHop[13]",
+                "axon_revHop[14]",
+                "axon_revHop[15]",
+                "axon_revHop[16]",
+                "axon_revHop[17]",
+                "axon_revHop[18]",
+                "axon_revHop[19]",
+                "axon_revHop[20]",
+                "axon_revHop[21]",
+                "axon_revHop[22]",
+                "axon_revHop[23]",
+                "axon_revHop[24]",
+                "axon_revHop[25]",
+                "axon_revHop[26]",
+                "axon_revHop[27]",
+                "axon_revHop[28]",
+                "axon_revHop[29]",
+                "axon_revHop[30]",
+                "axon_revHop[31]",
+                "axon_revHop[32]",
+                "axon_revHop[33]",
+                "axon_revHop[34]",
+                "axon_revHop[35]",
+                "axon_revHop[36]",
+                "axon_revHop[37]",
+                "axon_revHop[38]",
+                "axon_revHop[39]",
+                "axon_revHop[40]",
+                "axon_revHop[41]",
+                "axon_revHop[42]",
+                "axon_revHop[43]",
+                "axon_revHop[44]",
+                "axon_revHop[45]",
+                "axon_revHop[46]",
+                "axon_revHop[47]",
+                "axon_revHop[48]",
+                "axon_revHop[49]",
+                "axon_revHop[50]",
+                "axon_revHop[51]",
+                "axon_revHop[52]",
+                "axon_revHop[53]",
+                "axon_revHop[54]",
+                "axon_revHop[55]",
+                "axon_revHop[56]",
+                "axon_revHop[57]",
+                "axon_revHop[58]",
+                "axon_revHop[59]",
+                "axon_revHop[60]",
+                "axon_revHop[61]",
+                "axon_revHop[62]",
+                "axon_revHop[63]"
+            ]
+        }
+    ],
+    "meter_arrays": [],
+    "actions": [
+        {
+            "name": "_drop",
+            "id": 0,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "drop",
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "name": "route",
+            "id": 1,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "axon_fwdHop[0]",
+                                "port"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "axon_head",
+                                "fwdHopCount"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "-",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "axon_head",
+                                            "fwdHopCount"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x1"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "pop",
+                    "parameters": [
+                        {
+                            "type": "header_stack",
+                            "value": "axon_fwdHop"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "axon_head",
+                                "revHopCount"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "+",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "axon_head",
+                                            "revHopCount"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x1"
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "push",
+                    "parameters": [
+                        {
+                            "type": "header_stack",
+                            "value": "axon_revHop"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "axon_revHop[0]",
+                                "port"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "ingress_port"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "pipelines": [
+        {
+            "name": "ingress",
+            "id": 0,
+            "init_table": "_condition_0",
+            "tables": [
+                {
+                    "name": "drop_pkt",
+                    "id": 0,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 1,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "_drop"
+                    ],
+                    "next_tables": {
+                        "_drop": null
+                    },
+                    "base_default_next": null
+                },
+                {
+                    "name": "route_pkt",
+                    "id": 1,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 1,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "valid",
+                            "target": "axon_head",
+                            "mask": null
+                        },
+                        {
+                            "match_type": "valid",
+                            "target": "axon_fwdHop[0]",
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "_drop",
+                        "route"
+                    ],
+                    "next_tables": {
+                        "_drop": null,
+                        "route": null
+                    },
+                    "base_default_next": null
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": [
+                {
+                    "name": "_condition_0",
+                    "id": 0,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "!=",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "axon_head",
+                                    "axonLength"
+                                ]
+                            },
+                            "right": {
+                                "type": "field",
+                                "value": [
+                                    "my_metadata",
+                                    "headerLen"
+                                ]
+                            }
+                        }
+                    },
+                    "true_next": "drop_pkt",
+                    "false_next": "route_pkt"
+                }
+            ]
+        },
+        {
+            "name": "egress",
+            "id": 1,
+            "init_table": null,
+            "tables": [],
+            "action_profiles": [],
+            "conditionals": []
+        }
+    ],
+    "calculations": [],
+    "checksums": [],
+    "learn_lists": [],
+    "field_lists": [],
+    "counter_arrays": [],
+    "register_arrays": [],
+    "force_arith": [
+        [
+            "standard_metadata",
+            "ingress_port"
+        ],
+        [
+            "standard_metadata",
+            "packet_length"
+        ],
+        [
+            "standard_metadata",
+            "egress_spec"
+        ],
+        [
+            "standard_metadata",
+            "egress_port"
+        ],
+        [
+            "standard_metadata",
+            "egress_instance"
+        ],
+        [
+            "standard_metadata",
+            "instance_type"
+        ],
+        [
+            "standard_metadata",
+            "clone_spec"
+        ],
+        [
+            "standard_metadata",
+            "_padding"
+        ]
+    ]
+}

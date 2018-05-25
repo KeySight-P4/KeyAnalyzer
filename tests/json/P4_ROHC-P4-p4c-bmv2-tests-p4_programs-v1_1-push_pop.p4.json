@@ -1,0 +1,608 @@
+{
+    "__meta__": {
+        "version": [
+            2,
+            5
+        ],
+        "compiler": "https://github.com/p4lang/p4c-bm"
+    },
+    "header_types": [
+        {
+            "name": "standard_metadata_t",
+            "id": 0,
+            "fields": [
+                [
+                    "ingress_port",
+                    9
+                ],
+                [
+                    "packet_length",
+                    32
+                ],
+                [
+                    "egress_spec",
+                    9
+                ],
+                [
+                    "egress_port",
+                    9
+                ],
+                [
+                    "egress_instance",
+                    32
+                ],
+                [
+                    "instance_type",
+                    32
+                ],
+                [
+                    "clone_spec",
+                    32
+                ],
+                [
+                    "_padding",
+                    5
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ethernet_t",
+            "id": 1,
+            "fields": [
+                [
+                    "dst",
+                    48
+                ],
+                [
+                    "src",
+                    48
+                ],
+                [
+                    "type_",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "vlan_t",
+            "id": 2,
+            "fields": [
+                [
+                    "prio",
+                    3
+                ],
+                [
+                    "id",
+                    1
+                ],
+                [
+                    "vlan",
+                    12
+                ],
+                [
+                    "type_",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ipv4_t",
+            "id": 3,
+            "fields": [
+                [
+                    "version",
+                    4
+                ],
+                [
+                    "ihl",
+                    4
+                ],
+                [
+                    "tos",
+                    8
+                ],
+                [
+                    "len",
+                    16
+                ],
+                [
+                    "id",
+                    16
+                ],
+                [
+                    "flags",
+                    3
+                ],
+                [
+                    "frag",
+                    13
+                ],
+                [
+                    "ttl",
+                    8
+                ],
+                [
+                    "proto",
+                    8
+                ],
+                [
+                    "chksum",
+                    16
+                ],
+                [
+                    "src",
+                    32
+                ],
+                [
+                    "dst",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        }
+    ],
+    "headers": [
+        {
+            "name": "standard_metadata",
+            "id": 0,
+            "header_type": "standard_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "ethernet",
+            "id": 1,
+            "header_type": "ethernet_t",
+            "metadata": false
+        },
+        {
+            "name": "vlan_0[0]",
+            "id": 2,
+            "header_type": "vlan_t",
+            "metadata": false
+        },
+        {
+            "name": "vlan_0[1]",
+            "id": 3,
+            "header_type": "vlan_t",
+            "metadata": false
+        },
+        {
+            "name": "vlan_0[2]",
+            "id": 4,
+            "header_type": "vlan_t",
+            "metadata": false
+        },
+        {
+            "name": "ipv4",
+            "id": 5,
+            "header_type": "ipv4_t",
+            "metadata": false
+        }
+    ],
+    "header_stacks": [
+        {
+            "name": "vlan_0",
+            "id": 0,
+            "size": 3,
+            "header_type": "vlan_t",
+            "header_ids": [
+                2,
+                3,
+                4
+            ]
+        }
+    ],
+    "parsers": [
+        {
+            "name": "parser",
+            "id": 0,
+            "init_state": "start",
+            "parse_states": [
+                {
+                    "name": "start",
+                    "id": 0,
+                    "parser_ops": [],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ethernet",
+                    "id": 1,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ethernet"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "type_"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x8100",
+                            "mask": null,
+                            "next_state": "parse_vlan_0"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0800",
+                            "mask": null,
+                            "next_state": "parse_ipv4"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_vlan_0",
+                    "id": 2,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "stack",
+                                    "value": "vlan_0"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "stack_field",
+                            "value": [
+                                "vlan_0",
+                                "type_"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x8100",
+                            "mask": null,
+                            "next_state": "parse_vlan_0"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0800",
+                            "mask": null,
+                            "next_state": "parse_ipv4"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ipv4",
+                    "id": 3,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ipv4"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "parse_vsets": [],
+    "deparsers": [
+        {
+            "name": "deparser",
+            "id": 0,
+            "order": [
+                "ethernet",
+                "vlan_0[0]",
+                "vlan_0[1]",
+                "vlan_0[2]",
+                "ipv4"
+            ]
+        }
+    ],
+    "meter_arrays": [],
+    "actions": [
+        {
+            "name": "action_0",
+            "id": 0,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "pop",
+                    "parameters": [
+                        {
+                            "type": "header_stack",
+                            "value": "vlan_0"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "action_1",
+            "id": 1,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "push",
+                    "parameters": [
+                        {
+                            "type": "header_stack",
+                            "value": "vlan_0"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "vlan_0[0]",
+                                "prio"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "vlan_0[0]",
+                                "id"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "vlan_0[0]",
+                                "vlan"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "vlan_0[0]",
+                                "type_"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "type_"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "type_"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x8100"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "pipelines": [
+        {
+            "name": "ingress",
+            "id": 0,
+            "init_table": "_condition_0",
+            "tables": [
+                {
+                    "name": "table_0",
+                    "id": 0,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 64,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ethernet",
+                                "dst"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "action_0"
+                    ],
+                    "next_tables": {
+                        "action_0": null
+                    },
+                    "base_default_next": null
+                },
+                {
+                    "name": "table_1",
+                    "id": 1,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 64,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ethernet",
+                                "dst"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "action_1"
+                    ],
+                    "next_tables": {
+                        "action_1": null
+                    },
+                    "base_default_next": null
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": [
+                {
+                    "name": "_condition_0",
+                    "id": 0,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "valid",
+                            "left": null,
+                            "right": {
+                                "type": "header",
+                                "value": "vlan_0[1]"
+                            }
+                        }
+                    },
+                    "true_next": "table_0",
+                    "false_next": "table_1"
+                }
+            ]
+        },
+        {
+            "name": "egress",
+            "id": 1,
+            "init_table": null,
+            "tables": [],
+            "action_profiles": [],
+            "conditionals": []
+        }
+    ],
+    "calculations": [],
+    "checksums": [],
+    "learn_lists": [],
+    "field_lists": [],
+    "counter_arrays": [],
+    "register_arrays": [],
+    "force_arith": [
+        [
+            "standard_metadata",
+            "ingress_port"
+        ],
+        [
+            "standard_metadata",
+            "packet_length"
+        ],
+        [
+            "standard_metadata",
+            "egress_spec"
+        ],
+        [
+            "standard_metadata",
+            "egress_port"
+        ],
+        [
+            "standard_metadata",
+            "egress_instance"
+        ],
+        [
+            "standard_metadata",
+            "instance_type"
+        ],
+        [
+            "standard_metadata",
+            "clone_spec"
+        ],
+        [
+            "standard_metadata",
+            "_padding"
+        ]
+    ]
+}

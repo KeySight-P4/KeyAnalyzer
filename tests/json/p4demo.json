@@ -1,0 +1,702 @@
+{
+    "__meta__": {
+        "version": [
+            2,
+            5
+        ],
+        "compiler": "https://github.com/p4lang/p4c-bm"
+    },
+    "header_types": [
+        {
+            "name": "standard_metadata_t",
+            "id": 0,
+            "fields": [
+                [
+                    "ingress_port",
+                    9
+                ],
+                [
+                    "packet_length",
+                    32
+                ],
+                [
+                    "egress_spec",
+                    9
+                ],
+                [
+                    "egress_port",
+                    9
+                ],
+                [
+                    "egress_instance",
+                    32
+                ],
+                [
+                    "instance_type",
+                    32
+                ],
+                [
+                    "clone_spec",
+                    32
+                ],
+                [
+                    "_padding",
+                    5
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "my_path_header_t",
+            "id": 1,
+            "fields": [
+                [
+                    "preamble",
+                    24
+                ],
+                [
+                    "path",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ethernet_t",
+            "id": 2,
+            "fields": [
+                [
+                    "dst",
+                    16
+                ],
+                [
+                    "src",
+                    16
+                ],
+                [
+                    "etherType",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ipv4_t",
+            "id": 3,
+            "fields": [
+                [
+                    "protocol",
+                    8
+                ],
+                [
+                    "srcAddr",
+                    32
+                ],
+                [
+                    "dstAddr",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        }
+    ],
+    "headers": [
+        {
+            "name": "standard_metadata",
+            "id": 0,
+            "header_type": "standard_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "my_path_header",
+            "id": 1,
+            "header_type": "my_path_header_t",
+            "metadata": false
+        },
+        {
+            "name": "ethernet",
+            "id": 2,
+            "header_type": "ethernet_t",
+            "metadata": false
+        },
+        {
+            "name": "ipv4",
+            "id": 3,
+            "header_type": "ipv4_t",
+            "metadata": false
+        }
+    ],
+    "header_stacks": [],
+    "parsers": [
+        {
+            "name": "parser",
+            "id": 0,
+            "init_state": "start",
+            "parse_states": [
+                {
+                    "name": "start",
+                    "id": 0,
+                    "parser_ops": [],
+                    "transition_key": [
+                        {
+                            "type": "lookahead",
+                            "value": [
+                                0,
+                                24
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0xc0ffee",
+                            "mask": null,
+                            "next_state": "parse_my_path_header"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_my_path_header",
+                    "id": 1,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "my_path_header"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ethernet",
+                    "id": 2,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ethernet"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ipv4"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ipv4",
+                    "id": 3,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ipv4"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "parse_vsets": [],
+    "deparsers": [
+        {
+            "name": "deparser",
+            "id": 0,
+            "order": [
+                "my_path_header",
+                "ethernet",
+                "ipv4"
+            ]
+        }
+    ],
+    "meter_arrays": [],
+    "actions": [
+        {
+            "name": "action_proto_lookup",
+            "id": 0,
+            "runtime_data": [
+                {
+                    "name": "out_port",
+                    "bitwidth": 9
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "action_forward_pop_path",
+            "id": 1,
+            "runtime_data": [
+                {
+                    "name": "out_port",
+                    "bitwidth": 9
+                },
+                {
+                    "name": "idx",
+                    "bitwidth": 32
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                },
+                {
+                    "op": "count",
+                    "parameters": [
+                        {
+                            "type": "counter_array",
+                            "value": "test_counter"
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 1
+                        }
+                    ]
+                },
+                {
+                    "op": "remove_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "my_path_header"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "action_forward",
+            "id": 2,
+            "runtime_data": [
+                {
+                    "name": "out_port",
+                    "bitwidth": 9
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "_drop",
+            "id": 3,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "drop",
+                    "parameters": []
+                }
+            ]
+        },
+        {
+            "name": "action_bad_lookup",
+            "id": 4,
+            "runtime_data": [
+                {
+                    "name": "out_port",
+                    "bitwidth": 9
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "action_path_lookup",
+            "id": 5,
+            "runtime_data": [
+                {
+                    "name": "path_no",
+                    "bitwidth": 16
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "add_header",
+                    "parameters": [
+                        {
+                            "type": "header",
+                            "value": "my_path_header"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "my_path_header",
+                                "preamble"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0xc0ffee"
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "my_path_header",
+                                "path"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "_nop",
+            "id": 6,
+            "runtime_data": [],
+            "primitives": []
+        }
+    ],
+    "pipelines": [
+        {
+            "name": "ingress",
+            "id": 0,
+            "init_table": "proto_lookup",
+            "tables": [
+                {
+                    "name": "proto_lookup",
+                    "id": 0,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ipv4",
+                                "protocol"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "action_proto_lookup",
+                        "_nop"
+                    ],
+                    "next_tables": {
+                        "action_proto_lookup": "bad_lookup",
+                        "_nop": "bad_lookup"
+                    },
+                    "base_default_next": "bad_lookup"
+                },
+                {
+                    "name": "bad_lookup",
+                    "id": 1,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ethernet",
+                                "src"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "action_bad_lookup",
+                        "_drop"
+                    ],
+                    "next_tables": {
+                        "action_bad_lookup": "_condition_0",
+                        "_drop": "_condition_0"
+                    },
+                    "base_default_next": "_condition_0"
+                },
+                {
+                    "name": "path_lookup",
+                    "id": 2,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ethernet",
+                                "dst"
+                            ],
+                            "mask": null
+                        },
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "ethernet",
+                                "src"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "action_path_lookup"
+                    ],
+                    "next_tables": {
+                        "action_path_lookup": "forward"
+                    },
+                    "base_default_next": "forward"
+                },
+                {
+                    "name": "forward",
+                    "id": 3,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "my_path_header",
+                                "path"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "action_forward",
+                        "action_forward_pop_path"
+                    ],
+                    "next_tables": {
+                        "action_forward": null,
+                        "action_forward_pop_path": null
+                    },
+                    "base_default_next": null
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": [
+                {
+                    "name": "_condition_0",
+                    "id": 0,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "!=",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "standard_metadata",
+                                    "egress_spec"
+                                ]
+                            },
+                            "right": {
+                                "type": "hexstr",
+                                "value": "0x4"
+                            }
+                        }
+                    },
+                    "true_next": "_condition_1",
+                    "false_next": null
+                },
+                {
+                    "name": "_condition_1",
+                    "id": 1,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "not",
+                            "left": null,
+                            "right": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "valid",
+                                    "left": null,
+                                    "right": {
+                                        "type": "header",
+                                        "value": "my_path_header"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "true_next": "path_lookup",
+                    "false_next": "forward"
+                }
+            ]
+        },
+        {
+            "name": "egress",
+            "id": 1,
+            "init_table": null,
+            "tables": [],
+            "action_profiles": [],
+            "conditionals": []
+        }
+    ],
+    "calculations": [],
+    "checksums": [],
+    "learn_lists": [],
+    "field_lists": [],
+    "counter_arrays": [
+        {
+            "name": "test_counter",
+            "id": 0,
+            "is_direct": false,
+            "size": 16384
+        }
+    ],
+    "register_arrays": [],
+    "force_arith": [
+        [
+            "standard_metadata",
+            "ingress_port"
+        ],
+        [
+            "standard_metadata",
+            "packet_length"
+        ],
+        [
+            "standard_metadata",
+            "egress_spec"
+        ],
+        [
+            "standard_metadata",
+            "egress_port"
+        ],
+        [
+            "standard_metadata",
+            "egress_instance"
+        ],
+        [
+            "standard_metadata",
+            "instance_type"
+        ],
+        [
+            "standard_metadata",
+            "clone_spec"
+        ],
+        [
+            "standard_metadata",
+            "_padding"
+        ]
+    ]
+}

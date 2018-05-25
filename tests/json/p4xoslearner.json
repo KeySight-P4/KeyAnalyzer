@@ -1,0 +1,1401 @@
+{
+    "__meta__": {
+        "version": [
+            2,
+            5
+        ],
+        "compiler": "https://github.com/p4lang/p4c-bm"
+    },
+    "header_types": [
+        {
+            "name": "standard_metadata_t",
+            "id": 0,
+            "fields": [
+                [
+                    "ingress_port",
+                    9
+                ],
+                [
+                    "packet_length",
+                    32
+                ],
+                [
+                    "egress_spec",
+                    9
+                ],
+                [
+                    "egress_port",
+                    9
+                ],
+                [
+                    "egress_instance",
+                    32
+                ],
+                [
+                    "instance_type",
+                    32
+                ],
+                [
+                    "clone_spec",
+                    32
+                ],
+                [
+                    "_padding",
+                    5
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ethernet_t",
+            "id": 1,
+            "fields": [
+                [
+                    "dstAddr",
+                    48
+                ],
+                [
+                    "srcAddr",
+                    48
+                ],
+                [
+                    "etherType",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "arp_t",
+            "id": 2,
+            "fields": [
+                [
+                    "hrd",
+                    16
+                ],
+                [
+                    "pro",
+                    16
+                ],
+                [
+                    "hln",
+                    8
+                ],
+                [
+                    "pln",
+                    8
+                ],
+                [
+                    "op",
+                    16
+                ],
+                [
+                    "sha",
+                    48
+                ],
+                [
+                    "spa",
+                    32
+                ],
+                [
+                    "tha",
+                    48
+                ],
+                [
+                    "tpa",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ipv4_t",
+            "id": 3,
+            "fields": [
+                [
+                    "version",
+                    4
+                ],
+                [
+                    "ihl",
+                    4
+                ],
+                [
+                    "diffserv",
+                    8
+                ],
+                [
+                    "totalLen",
+                    16
+                ],
+                [
+                    "identification",
+                    16
+                ],
+                [
+                    "flags",
+                    3
+                ],
+                [
+                    "fragOffset",
+                    13
+                ],
+                [
+                    "ttl",
+                    8
+                ],
+                [
+                    "protocol",
+                    8
+                ],
+                [
+                    "hdrChecksum",
+                    16
+                ],
+                [
+                    "srcAddr",
+                    32
+                ],
+                [
+                    "dstAddr",
+                    32
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ipv6_t",
+            "id": 4,
+            "fields": [
+                [
+                    "version",
+                    4
+                ],
+                [
+                    "trafficClass",
+                    8
+                ],
+                [
+                    "flowLabel",
+                    20
+                ],
+                [
+                    "payloadLen",
+                    16
+                ],
+                [
+                    "nextHdr",
+                    8
+                ],
+                [
+                    "hopLimit",
+                    8
+                ],
+                [
+                    "srcAddr",
+                    128
+                ],
+                [
+                    "dstAddr",
+                    128
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "udp_t",
+            "id": 5,
+            "fields": [
+                [
+                    "srcPort",
+                    16
+                ],
+                [
+                    "dstPort",
+                    16
+                ],
+                [
+                    "length_",
+                    16
+                ],
+                [
+                    "checksum",
+                    16
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "paxos_t",
+            "id": 6,
+            "fields": [
+                [
+                    "msgtype",
+                    16
+                ],
+                [
+                    "inst",
+                    32
+                ],
+                [
+                    "rnd",
+                    16
+                ],
+                [
+                    "vrnd",
+                    16
+                ],
+                [
+                    "acptid",
+                    16
+                ],
+                [
+                    "paxoslen",
+                    32
+                ],
+                [
+                    "paxosval",
+                    256
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        },
+        {
+            "name": "ingress_metadata_t",
+            "id": 7,
+            "fields": [
+                [
+                    "round",
+                    16
+                ],
+                [
+                    "set_drop",
+                    1
+                ],
+                [
+                    "count",
+                    8
+                ],
+                [
+                    "acceptors",
+                    8
+                ],
+                [
+                    "_padding",
+                    7
+                ]
+            ],
+            "length_exp": null,
+            "max_length": null
+        }
+    ],
+    "headers": [
+        {
+            "name": "standard_metadata",
+            "id": 0,
+            "header_type": "standard_metadata_t",
+            "metadata": true
+        },
+        {
+            "name": "ethernet",
+            "id": 1,
+            "header_type": "ethernet_t",
+            "metadata": false
+        },
+        {
+            "name": "arp",
+            "id": 2,
+            "header_type": "arp_t",
+            "metadata": false
+        },
+        {
+            "name": "ipv4",
+            "id": 3,
+            "header_type": "ipv4_t",
+            "metadata": false
+        },
+        {
+            "name": "ipv6",
+            "id": 4,
+            "header_type": "ipv6_t",
+            "metadata": false
+        },
+        {
+            "name": "udp",
+            "id": 5,
+            "header_type": "udp_t",
+            "metadata": false
+        },
+        {
+            "name": "paxos",
+            "id": 6,
+            "header_type": "paxos_t",
+            "metadata": false
+        },
+        {
+            "name": "local_metadata",
+            "id": 7,
+            "header_type": "ingress_metadata_t",
+            "metadata": true
+        }
+    ],
+    "header_stacks": [],
+    "parsers": [
+        {
+            "name": "parser",
+            "id": 0,
+            "init_state": "start",
+            "parse_states": [
+                {
+                    "name": "start",
+                    "id": 0,
+                    "parser_ops": [],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": "parse_ethernet"
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ethernet",
+                    "id": 1,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ethernet"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ethernet",
+                                "etherType"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x0806",
+                            "mask": null,
+                            "next_state": "parse_arp"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0800",
+                            "mask": null,
+                            "next_state": "parse_ipv4"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x86dd",
+                            "mask": null,
+                            "next_state": "parse_ipv6"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_arp",
+                    "id": 2,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "arp"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ipv4",
+                    "id": 3,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ipv4"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "ipv4",
+                                "protocol"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x11",
+                            "mask": null,
+                            "next_state": "parse_udp"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_udp",
+                    "id": 4,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "udp"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "udp",
+                                "dstPort"
+                            ]
+                        }
+                    ],
+                    "transitions": [
+                        {
+                            "type": "hexstr",
+                            "value": "0x8888",
+                            "mask": null,
+                            "next_state": "parse_paxos"
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x8889",
+                            "mask": null,
+                            "next_state": "parse_paxos"
+                        },
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_paxos",
+                    "id": 5,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "paxos"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                },
+                {
+                    "name": "parse_ipv6",
+                    "id": 6,
+                    "parser_ops": [
+                        {
+                            "op": "extract",
+                            "parameters": [
+                                {
+                                    "type": "regular",
+                                    "value": "ipv6"
+                                }
+                            ]
+                        }
+                    ],
+                    "transition_key": [],
+                    "transitions": [
+                        {
+                            "type": "default",
+                            "value": null,
+                            "mask": null,
+                            "next_state": null
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "parse_vsets": [],
+    "deparsers": [
+        {
+            "name": "deparser",
+            "id": 0,
+            "order": [
+                "ethernet",
+                "ipv6",
+                "ipv4",
+                "arp",
+                "udp",
+                "paxos"
+            ]
+        }
+    ],
+    "meter_arrays": [],
+    "actions": [
+        {
+            "name": "read_round",
+            "id": 0,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "register_read",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "local_metadata",
+                                "round"
+                            ]
+                        },
+                        {
+                            "type": "register_array",
+                            "value": "rounds_register"
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "paxos",
+                                "inst"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "local_metadata",
+                                "set_drop"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x1"
+                        }
+                    ]
+                },
+                {
+                    "op": "register_read",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "local_metadata",
+                                "acceptors"
+                            ]
+                        },
+                        {
+                            "type": "register_array",
+                            "value": "history2B"
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "paxos",
+                                "inst"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "forward",
+            "id": 1,
+            "runtime_data": [
+                {
+                    "name": "port",
+                    "bitwidth": 9
+                }
+            ],
+            "primitives": [
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "standard_metadata",
+                                "egress_spec"
+                            ]
+                        },
+                        {
+                            "type": "runtime_data",
+                            "value": 0
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "local_metadata",
+                                "set_drop"
+                            ]
+                        },
+                        {
+                            "type": "hexstr",
+                            "value": "0x0"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "handle_2b",
+            "id": 2,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "register_write",
+                    "parameters": [
+                        {
+                            "type": "register_array",
+                            "value": "rounds_register"
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "paxos",
+                                "inst"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "paxos",
+                                "rnd"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "register_write",
+                    "parameters": [
+                        {
+                            "type": "register_array",
+                            "value": "values_register"
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "paxos",
+                                "inst"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "paxos",
+                                "paxosval"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "modify_field",
+                    "parameters": [
+                        {
+                            "type": "field",
+                            "value": [
+                                "local_metadata",
+                                "acceptors"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "|",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "local_metadata",
+                                            "acceptors"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "<<",
+                                            "left": {
+                                                "type": "hexstr",
+                                                "value": "0x1"
+                                            },
+                                            "right": {
+                                                "type": "field",
+                                                "value": [
+                                                    "paxos",
+                                                    "acptid"
+                                                ]
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                },
+                {
+                    "op": "register_write",
+                    "parameters": [
+                        {
+                            "type": "register_array",
+                            "value": "history2B"
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "paxos",
+                                "inst"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "local_metadata",
+                                "acceptors"
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "handle_new_value",
+            "id": 3,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "register_write",
+                    "parameters": [
+                        {
+                            "type": "register_array",
+                            "value": "rounds_register"
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "paxos",
+                                "inst"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "paxos",
+                                "rnd"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "register_write",
+                    "parameters": [
+                        {
+                            "type": "register_array",
+                            "value": "values_register"
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "paxos",
+                                "inst"
+                            ]
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "paxos",
+                                "paxosval"
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "op": "register_write",
+                    "parameters": [
+                        {
+                            "type": "register_array",
+                            "value": "history2B"
+                        },
+                        {
+                            "type": "field",
+                            "value": [
+                                "paxos",
+                                "inst"
+                            ]
+                        },
+                        {
+                            "type": "expression",
+                            "value": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "<<",
+                                    "left": {
+                                        "type": "hexstr",
+                                        "value": "0x1"
+                                    },
+                                    "right": {
+                                        "type": "field",
+                                        "value": [
+                                            "paxos",
+                                            "acptid"
+                                        ]
+                                    }
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name": "_nop",
+            "id": 4,
+            "runtime_data": [],
+            "primitives": []
+        },
+        {
+            "name": "_drop",
+            "id": 5,
+            "runtime_data": [],
+            "primitives": [
+                {
+                    "op": "drop",
+                    "parameters": []
+                }
+            ]
+        }
+    ],
+    "pipelines": [
+        {
+            "name": "ingress",
+            "id": 0,
+            "init_table": "_condition_0",
+            "tables": [
+                {
+                    "name": "round_tbl",
+                    "id": 0,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 1,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [],
+                    "actions": [
+                        "read_round"
+                    ],
+                    "next_tables": {
+                        "read_round": "_condition_2"
+                    },
+                    "base_default_next": "_condition_2"
+                },
+                {
+                    "name": "learner_tbl",
+                    "id": 1,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "paxos",
+                                "msgtype"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "handle_2b",
+                        "_drop"
+                    ],
+                    "next_tables": {
+                        "handle_2b": "_condition_4",
+                        "_drop": "_condition_4"
+                    },
+                    "base_default_next": "_condition_4"
+                },
+                {
+                    "name": "reset_tbl",
+                    "id": 2,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 16384,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "paxos",
+                                "msgtype"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "handle_new_value",
+                        "_drop"
+                    ],
+                    "next_tables": {
+                        "handle_new_value": "_condition_4",
+                        "_drop": "_condition_4"
+                    },
+                    "base_default_next": "_condition_4"
+                },
+                {
+                    "name": "forward_tbl",
+                    "id": 3,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 48,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "standard_metadata",
+                                "ingress_port"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "forward",
+                        "_drop"
+                    ],
+                    "next_tables": {
+                        "forward": null,
+                        "_drop": null
+                    },
+                    "base_default_next": null
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": [
+                {
+                    "name": "_condition_0",
+                    "id": 0,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "valid",
+                            "left": null,
+                            "right": {
+                                "type": "header",
+                                "value": "ipv4"
+                            }
+                        }
+                    },
+                    "true_next": "_condition_1",
+                    "false_next": null
+                },
+                {
+                    "name": "_condition_1",
+                    "id": 1,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "valid",
+                            "left": null,
+                            "right": {
+                                "type": "header",
+                                "value": "paxos"
+                            }
+                        }
+                    },
+                    "true_next": "round_tbl",
+                    "false_next": null
+                },
+                {
+                    "name": "_condition_2",
+                    "id": 2,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": ">",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "paxos",
+                                    "rnd"
+                                ]
+                            },
+                            "right": {
+                                "type": "field",
+                                "value": [
+                                    "local_metadata",
+                                    "round"
+                                ]
+                            }
+                        }
+                    },
+                    "true_next": "reset_tbl",
+                    "false_next": "_condition_3"
+                },
+                {
+                    "name": "_condition_3",
+                    "id": 3,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "==",
+                            "left": {
+                                "type": "field",
+                                "value": [
+                                    "paxos",
+                                    "rnd"
+                                ]
+                            },
+                            "right": {
+                                "type": "field",
+                                "value": [
+                                    "local_metadata",
+                                    "round"
+                                ]
+                            }
+                        }
+                    },
+                    "true_next": "learner_tbl",
+                    "false_next": "_condition_4"
+                },
+                {
+                    "name": "_condition_4",
+                    "id": 4,
+                    "expression": {
+                        "type": "expression",
+                        "value": {
+                            "op": "or",
+                            "left": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "or",
+                                    "left": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "==",
+                                            "left": {
+                                                "type": "field",
+                                                "value": [
+                                                    "local_metadata",
+                                                    "acceptors"
+                                                ]
+                                            },
+                                            "right": {
+                                                "type": "hexstr",
+                                                "value": "0x6"
+                                            }
+                                        }
+                                    },
+                                    "right": {
+                                        "type": "expression",
+                                        "value": {
+                                            "op": "==",
+                                            "left": {
+                                                "type": "field",
+                                                "value": [
+                                                    "local_metadata",
+                                                    "acceptors"
+                                                ]
+                                            },
+                                            "right": {
+                                                "type": "hexstr",
+                                                "value": "0x5"
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            "right": {
+                                "type": "expression",
+                                "value": {
+                                    "op": "==",
+                                    "left": {
+                                        "type": "field",
+                                        "value": [
+                                            "local_metadata",
+                                            "acceptors"
+                                        ]
+                                    },
+                                    "right": {
+                                        "type": "hexstr",
+                                        "value": "0x3"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "true_next": "forward_tbl",
+                    "false_next": null
+                }
+            ]
+        },
+        {
+            "name": "egress",
+            "id": 1,
+            "init_table": "drop_tbl",
+            "tables": [
+                {
+                    "name": "drop_tbl",
+                    "id": 4,
+                    "match_type": "exact",
+                    "type": "simple",
+                    "max_size": 2,
+                    "with_counters": false,
+                    "direct_meters": null,
+                    "support_timeout": false,
+                    "key": [
+                        {
+                            "match_type": "exact",
+                            "target": [
+                                "local_metadata",
+                                "set_drop"
+                            ],
+                            "mask": null
+                        }
+                    ],
+                    "actions": [
+                        "_drop",
+                        "_nop"
+                    ],
+                    "next_tables": {
+                        "_drop": null,
+                        "_nop": null
+                    },
+                    "base_default_next": null
+                }
+            ],
+            "action_profiles": [],
+            "conditionals": []
+        }
+    ],
+    "calculations": [
+        {
+            "name": "ipv4_checksum",
+            "id": 0,
+            "input": [
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "version"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "ihl"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "diffserv"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "totalLen"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "identification"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "flags"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "fragOffset"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "ttl"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "protocol"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "srcAddr"
+                    ]
+                },
+                {
+                    "type": "field",
+                    "value": [
+                        "ipv4",
+                        "dstAddr"
+                    ]
+                }
+            ],
+            "algo": "csum16"
+        }
+    ],
+    "checksums": [
+        {
+            "name": "ipv4.hdrChecksum|ipv4_checksum",
+            "id": 0,
+            "target": [
+                "ipv4",
+                "hdrChecksum"
+            ],
+            "type": "generic",
+            "calculation": "ipv4_checksum",
+            "if_cond": null
+        }
+    ],
+    "learn_lists": [],
+    "field_lists": [],
+    "counter_arrays": [],
+    "register_arrays": [
+        {
+            "name": "rounds_register",
+            "id": 0,
+            "bitwidth": 16,
+            "size": 65536
+        },
+        {
+            "name": "values_register",
+            "id": 1,
+            "bitwidth": 256,
+            "size": 65536
+        },
+        {
+            "name": "history2B",
+            "id": 2,
+            "bitwidth": 8,
+            "size": 65536
+        }
+    ],
+    "force_arith": [
+        [
+            "standard_metadata",
+            "ingress_port"
+        ],
+        [
+            "standard_metadata",
+            "packet_length"
+        ],
+        [
+            "standard_metadata",
+            "egress_spec"
+        ],
+        [
+            "standard_metadata",
+            "egress_port"
+        ],
+        [
+            "standard_metadata",
+            "egress_instance"
+        ],
+        [
+            "standard_metadata",
+            "instance_type"
+        ],
+        [
+            "standard_metadata",
+            "clone_spec"
+        ],
+        [
+            "standard_metadata",
+            "_padding"
+        ]
+    ]
+}
